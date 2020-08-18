@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  nextcloud:
+    container_name: my_nextcloud
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./nextcloud:/var/www/html
+      - ./custom_apps/:/var/www/html/custom_apps
+    ports:
+      - "8080:80"
+    privileged: true

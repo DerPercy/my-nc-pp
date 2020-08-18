@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>myppapp</id>
+    <name>My PP App</name>
+    <summary>My Projectplanning App</summary>
+    <description><![CDATA[A nextcloud app for projectplanning]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="mail@author.com" >DerPercy</author>
+    <namespace>MyPPApp</namespace>
+    <category>tools</category>
+    <bugs>https://github.com/DerPercy</bugs>
+    <dependencies>
+        <nextcloud min-version="18" max-version="18"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>My PP App</name>
+            <route>myppapp.page.index</route>
+        </navigation>
+    </navigations>
+</info>
