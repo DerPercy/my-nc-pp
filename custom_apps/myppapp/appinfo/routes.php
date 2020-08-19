@@ -16,7 +16,10 @@ return [
 		['name' => 'customer#timetracking', 'url' => '/timetracking', 'verb' => 'GET'],
 		['name' => 'customer#timesheet', 'url' => '/timesheet', 'verb' => 'GET'],
 		['name' => 'customer#projectDetails', 'url' => '/project', 'verb' => 'GET'],
-	  ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
+		['name' => 'customer#wikipageDetails', 'url' => '/wikipage', 'verb' => 'GET'],
+
+
+		['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
     ['name' => 'api#dummy', 'url' => '/dummy', 'verb' => 'GET'],
   ]
 ];

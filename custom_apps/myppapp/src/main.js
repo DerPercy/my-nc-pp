@@ -25,7 +25,13 @@ const store = new Vuex.Store({
 			state.contentProjectData = data
 			state.contentType = 'project'
 		},
+		projectChangeWikiPage: (state, wikiData) => {
 
+			const data = Object.assign({}, state.contentProjectData)
+			data.wiki = wikiData
+			state.contentProjectData = data
+			console.log(state.contentProjectData)
+		},
 	},
 	actions: {
 		navtoTimetracking(context) {
@@ -41,6 +47,19 @@ const store = new Vuex.Store({
 				.then(response => {
 					console.log(response.data)
 					context.commit('openProjectDashboard', response.data)
+				})
+		},
+		projectDashboardNavWiki(context, navdata) {
+			axios
+				.get('./wikipage', {
+					params: {
+						wikipagePath: navdata.sourceFile,
+						wikipageLink: navdata.href,
+					},
+				})
+				.then(response => {
+					console.log(response.data)
+					context.commit('projectChangeWikiPage', response.data)
 				})
 		},
 	},

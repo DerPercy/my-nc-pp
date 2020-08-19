@@ -91,6 +91,23 @@ class CustomerController extends \OCP\AppFramework\ApiController {
 		return new DataResponse($data);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function wikipageDetails(string $wikipagePath, string $wikipageLink){
+		$data = [];
+		$pageFile = $this->rootFolder->get($this->userId."/".$wikipagePath);
+		$pageFolder = $pageFile->getParent();
+
+		$newPageFile = $pageFolder->get($wikipageLink);
+
+		$data["content"] = $newPageFile->getContent();
+		$data["path"] = $newPageFile->getInternalPath();
+		return new DataResponse($data);
+	}
+
+
   /**
    * @NoAdminRequired
    *
