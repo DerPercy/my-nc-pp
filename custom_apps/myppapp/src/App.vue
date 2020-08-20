@@ -122,10 +122,10 @@ export default {
 	},
 	mounted() {
 		store.getCustomers().then(response => (this.customerList = response))
+		this.$store.dispatch('task/loadData')
 	},
 	methods: {
 		showProject(project) {
-			console.log(project.path)
 			this.$store.dispatch('navtoProject', project.path)
 		},
 		showTimetracking() {

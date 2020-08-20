@@ -48,7 +48,6 @@ export default {
 							id: serverEvent.start,
 						})
 					}
-					console.log(events)
 					success(events)
 				// resolve(response.data)
 				})
@@ -57,7 +56,6 @@ export default {
 			const title = prompt('Please enter a new title for your event')
 			const calendarApi = selectInfo.view.calendar
 			calendarApi.unselect() // clear date selection
-			console.log(selectInfo)
 			this.$store.commit('openTRSideBar', { start: selectInfo.start, end: selectInfo.end })
 			if (title) {
 				calendarApi.addEvent({

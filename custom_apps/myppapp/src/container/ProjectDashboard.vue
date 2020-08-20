@@ -30,7 +30,6 @@ export default {
 	methods: {
 		navToWiki(sourceFile, href) {
 			this.$store.dispatch('projectDashboardNavWiki', { sourceFile, href })
-			console.log('NavToWiki', sourceFile, href)
 		},
 	},
 }

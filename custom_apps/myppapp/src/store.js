@@ -20,7 +20,6 @@ export const store = {
 		})
 	},
 	closeSideBar() {
-		console.log('CSB')
 		this.state.asideType = null
 	},
 }
