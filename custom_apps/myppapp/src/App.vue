@@ -7,6 +7,11 @@
 					title="Zeiterfassung"
 					icon="icon-user"
 					@click="showTimetracking()" />
+				<AppNavigationItem
+					key="tasks"
+					title="Aufgaben"
+					icon="icon-user"
+					@click="showTasks()" />
 				<AppNavigationItem v-for="(customer, index) in customerList"
 					:key="index"
 					:title="customer.name"
@@ -20,8 +25,9 @@
 			</template>
 		</AppNavigation>
 		<AppContent>
-			<ProjectDashboard v-show="contentType == 'project'" :project-path="projectPath" />
-			<TimeRecording v-show="contentType == 'timetracking'" />
+			<TaskOverview v-if="contentType == 'tasks'" />
+			<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
+			<TimeRecording v-if="contentType == 'timetracking'" />
 		</AppContent>
 		<AsideTimeRecording v-show="asideType == 'tr'" />
 		<AppSidebar v-show="show"
@@ -80,6 +86,7 @@ import TimeRecording from './components/TimeRecording.vue'
 import AsideTimeRecording from './components/AsideTimeRecording.vue'
 
 import ProjectDashboard from './container/ProjectDashboard.vue'
+import TaskOverview from './container/TaskOverview.vue'
 
 import { store } from './store.js'
 
@@ -97,6 +104,7 @@ export default {
 		TimeRecording,
 		AsideTimeRecording,
 		ProjectDashboard,
+		TaskOverview,
 	},
 	data() {
 		return {
@@ -130,6 +138,9 @@ export default {
 		},
 		showTimetracking() {
 			this.$store.dispatch('navtoTimetracking')
+		},
+		showTasks() {
+			this.$store.dispatch('navtoTasks')
 		},
 		addOption(val) {
 			this.options.push(val)

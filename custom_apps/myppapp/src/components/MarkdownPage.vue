@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="myppapp-markdownpage">
 		<div>Hello Markdown</div>
 		<p @click="onClick" v-html="htmlCode" />
 	</div>
@@ -49,19 +49,11 @@ export default {
 		},
 	},
 }
-/* if (this.props.href.match(/^(file?:)?\/\//)) {
-		 return (
-				 <a href={this.props.href} target="_blank">
-						 {this.props.children} <sup>(Filesystem)</sup>
-				 </a>
-		 );
- }
- if (this.props.href.match(/^(evernote?:)?\/\//)) {
-		 return (
-				 <a href={this.props.href} target="_blank">
-						 {this.props.children} <sup>(EN)</sup>
-				 </a>
-		 );
- }
- return <Link to={this.props.href}>{this.props.children}</Link>; */
+
 </script>
+
+<style>
+.myppapp-markdownpage a {
+	color: var(--color-primary);
+}
+</style>

@@ -7,8 +7,24 @@ Vue.use(Vuex)
 // Task module
 const modTask = {
 	namespaced: true,
-	state: () => { return {} },
-	mutations: { },
+	state: {
+		tasks: [],
+	},
+	mutations: {
+		addTaskFile: (state, taskData) => {
+			const path = taskData.path
+			const newTasks = []
+			for (let i = 0; i < state.tasks.length; i++) {
+				if (state.tasks[i].path !== path) {
+					newTasks.push(state.tasks[i])
+				}
+			}
+			for (let i = 0; i < taskData.tasks.length; i++) {
+				newTasks.push(taskData.tasks[i])
+			}
+			state.tasks = newTasks
+		},
+	},
 	actions: {
 		loadData({ state, commit, dispatch, rootState }) {
 			const fIterator = (project, customer) => {
@@ -20,6 +36,7 @@ const modTask = {
 						},
 					})
 					.then(response => {
+						commit('addTaskFile', response.data)
 						console.log('Tasks', response.data)
 					})
 				console.log('Iterate', customer, project)
@@ -96,6 +113,7 @@ const store = new Vuex.Store({
 		closeSideBar: state => { state.asideType = '' },
 		openTRSideBar: (state, timerecorddata) => { state.asideTRData = timerecorddata; state.asideType = 'tr' },
 		openTRContent: (state) => { state.contentType = 'timetracking' },
+		openTaskContent: (state) => { state.contentType = 'tasks' },
 		openProjectDashboard: (state, data) => {
 			state.contentProjectPath = data.path
 			state.contentProjectData = data
@@ -111,6 +129,9 @@ const store = new Vuex.Store({
 	actions: {
 		navtoTimetracking(context) {
 			context.commit('openTRContent')
+		},
+		navtoTasks(context) {
+			context.commit('openTaskContent')
 		},
 		navtoProject(context, path) {
 			axios
