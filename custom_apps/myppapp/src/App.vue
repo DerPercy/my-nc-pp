@@ -1,7 +1,7 @@
 <template>
-	<Content :class="{'icon-loading': loading}" app-name="vueexample">
+	<Content :class="{'icon-loading': loading}" app-name="myppapp" id="content">
 		<AppNavigation>
-			<template id="app-vueexample-navigation" #list>
+			<template id="app-myppapp-navigation" #list>
 				<AppNavigationItem
 					key="timeTracking"
 					title="Zeiterfassung"
@@ -25,9 +25,11 @@
 			</template>
 		</AppNavigation>
 		<AppContent>
-			<TaskOverview v-if="contentType == 'tasks'" />
-			<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
-			<TimeRecording v-if="contentType == 'timetracking'" />
+			<div id="app-content-wrapper">
+				<TaskOverview v-if="contentType == 'tasks'" />
+				<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
+				<TimeRecording v-if="contentType == 'timetracking'" />
+			</div>
 		</AppContent>
 		<AsideTimeRecording v-show="asideType == 'tr'" />
 		<AppSidebar v-show="show"

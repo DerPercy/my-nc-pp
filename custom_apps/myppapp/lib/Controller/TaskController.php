@@ -47,6 +47,7 @@ class TaskController extends \OCP\AppFramework\ApiController {
 				// Priority
 				if( 1 == preg_match('/^(\(([A-Z])\)) (.+)/', $line, $matches)){
 					$task["prio"] = $matches[2][0];
+					$line = $line = substr($line,4);
 				}
 				// << Parse todo.txt
 				$task["name"] = $line;
