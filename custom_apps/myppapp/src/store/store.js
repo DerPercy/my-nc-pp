@@ -130,6 +130,13 @@ const store = new Vuex.Store({
 		navtoTimetracking(context) {
 			context.commit('openTRContent')
 		},
+		buildTN(context) {
+			axios
+				.get('./timesheet')
+				.then(response => {
+					// context.commit('openProjectDashboard', response.data)
+				})
+		},
 		navtoTasks(context) {
 			context.commit('openTaskContent')
 		},

@@ -2,3 +2,5 @@
 /custom_apps/bruteforcesettings/
 /custom_apps/myppapp/js/
 /custom_apps/myppapp/node_modules/
+
+/docker/composer/volumne/

@@ -5,12 +5,20 @@
 				<AppNavigationItem
 					key="timeTracking"
 					title="Zeiterfassung"
+					:allow-collapse="true"
 					icon="icon-user"
-					@click="showTimetracking()" />
+					@click="showTimetracking()">
+					<AppNavigationItem
+						key="timeTrackingExport"
+						title="TN erzeugen"
+						icon="icon-external"
+						@click="buildTN()" />
+
+				</AppNavigationItem>
 				<AppNavigationItem
 					key="tasks"
 					title="Aufgaben"
-					icon="icon-user"
+					icon="icon-checkmark"
 					@click="showTasks()" />
 				<AppNavigationItem v-for="(customer, index) in customerList"
 					:key="index"
@@ -140,6 +148,9 @@ export default {
 		},
 		showTimetracking() {
 			this.$store.dispatch('navtoTimetracking')
+		},
+		buildTN() {
+			this.$store.dispatch('buildTN')
 		},
 		showTasks() {
 			this.$store.dispatch('navtoTasks')

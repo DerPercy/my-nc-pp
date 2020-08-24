@@ -1,7 +1,6 @@
 <?php
 namespace OCA\MyPPApp\Tests\Unit\Controller;
 
-use PHPUnit_Framework_TestCase;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -9,14 +8,14 @@ use OCP\AppFramework\Http\DataResponse;
 //use OCA\NotesTutorial\Service\NotFoundException;
 use OCA\MyPPApp\Controller\CustomerController;
 
-class CustomerControllerTest extends PHPUnit_Framework_TestCase {
+class CustomerControllerTest extends \PHPUnit\Framework\TestCase {
 
     protected $controller;
     protected $service;
     protected $userId = 'john';
     protected $request;
 
-    public function setUp() {
+    public function setUp():void {
         $this->request = $this->getMockBuilder('OCP\IRequest')->getMock();
         $this->service = $this->getMockBuilder('OCA\MyPPApp\Service\CustomerService')
             ->disableOriginalConstructor()

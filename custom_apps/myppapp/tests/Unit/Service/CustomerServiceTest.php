@@ -9,13 +9,13 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCA\MyPPApp\Service\CustomerService;
 
 
-class CustomerServiceTest extends PHPUnit_Framework_TestCase {
+class CustomerServiceTest extends \PHPUnit\Framework\TestCase  {
 
     private $service;
     private $mapper;
     private $userId = 'john';
 
-    public function setUp() {
+    public function setUp():void {
         /*$this->mapper = $this->getMockBuilder('OCA\NotesTutorial\Db\NoteMapper')
             ->disableOriginalConstructor()
             ->getMock();
