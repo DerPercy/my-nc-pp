@@ -1,0 +1,2 @@
+# PHPUnit Docker Container.
+FROM composer:1.9.3

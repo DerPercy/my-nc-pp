@@ -12,3 +12,18 @@ services:
     ports:
       - "8080:80"
     privileged: true
+  composer:
+    container_name: my_phpunit
+    build:
+      context: .
+      dockerfile: DockerfilePHPUnit
+    environment:
+      - COMPOSER_CACHE_DIR=/app/.cache/composer
+    volumes:
+      - ./docker/composer/volume:/app
+      - ./custom_apps/:/app/custom_apps
+  php:
+    image: php:7.4-cli
+    volumes:
+      - .:/app
+    working_dir: /app
