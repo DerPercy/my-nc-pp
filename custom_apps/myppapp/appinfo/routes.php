@@ -18,6 +18,9 @@ return [
 		['name' => 'customer#projectDetails', 'url' => '/project', 'verb' => 'GET'],
 		['name' => 'customer#wikipageDetails', 'url' => '/wikipage', 'verb' => 'GET'],
 
+		['name' => 'wiki#wikipageDetails', 'url' => '/wiki/page', 'verb' => 'GET'],
+		['name' => 'wiki#updateWikipage', 'url' => '/wiki/page', 'verb' => 'POST'],
+
 		['name' => 'task#taskList', 'url' => '/tasks', 'verb' => 'GET'],
 
 		['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],

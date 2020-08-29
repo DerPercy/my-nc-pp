@@ -2,7 +2,7 @@
 	<div class="myppapp-markdownpage">
 		<div>Hello Markdown</div>
 		<p @click="onClick" v-html="htmlCode" />
-		<textarea v-model="value" placeholder="add multiple lines" />
+		<textarea v-model="content" style="width:100%" rows="10" />
 	</div>
 </template>
 
@@ -23,7 +23,24 @@ export default {
 			default: '',
 		},
 	},
+	data() {
+		return {
+			stateValue: this.value
+		}
+	},
+	beforeUpdate() {
+		console.log('Update')
+	},
 	computed: {
+		content: {
+			get() {
+				return this.value
+			},
+			set(newValue) {
+				// this.value = newValue
+				this.$emit('change', newValue)
+			},
+		},
 		htmlCode() {
 			const renderer = {
 				link(href, title, text) {
@@ -38,7 +55,7 @@ export default {
 				},
 			}
 			marked.use({ renderer })
-			return marked(this.value)
+			return marked(this.content)
 		},
 	},
 	methods: {
