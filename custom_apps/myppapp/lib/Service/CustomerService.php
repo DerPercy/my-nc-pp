@@ -38,6 +38,8 @@ class CustomerService {
 		public function getFolderDetails(Folder $folder){
 			$folderData = [];
 			$folderData["name"] = $folder->getName();
+			$folderData["mtime"] = $folder->getMTime() * 1000; // Last Modfied Time
+
 			// Get Projects
 			$projects = [];
 			try {

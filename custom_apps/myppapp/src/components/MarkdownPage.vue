@@ -2,6 +2,7 @@
 	<div class="myppapp-markdownpage">
 		<div>Hello Markdown</div>
 		<p @click="onClick" v-html="htmlCode" />
+		<textarea v-model="value" placeholder="add multiple lines" />
 	</div>
 </template>
 

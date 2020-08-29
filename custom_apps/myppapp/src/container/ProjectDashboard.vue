@@ -6,15 +6,20 @@
 			:value="projectData.wiki.content"
 			:file-path="projectData.wiki.path"
 			@navigate="navToWiki" />
+		<WikiPage
+			v-if="projectData.wiki"
+			:wiki-page-url="projectData.wiki.path" />
 	</div>
 </template>
 
 <script>
 import MarkdownPage from '../components/MarkdownPage.vue'
+import WikiPage from './WikiPage.vue'
 
 export default {
 	components: {
 		MarkdownPage,
+		WikiPage,
 	},
 	props: {
 		projectPath: {

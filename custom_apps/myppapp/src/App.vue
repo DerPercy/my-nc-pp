@@ -25,6 +25,9 @@
 					:title="customer.name"
 					:allow-collapse="true"
 					icon="icon-folder">
+					<AppNavigationCounter slot="counter" :highlighted="false">
+						{{daysSinceLastChange(customer)}}
+					</AppNavigationCounter>
 					<AppNavigationItem v-for="(project, pIndex) in customer.projects"
 						:key="pIndex"
 						:title="project.name"
@@ -87,6 +90,7 @@
 import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
@@ -99,6 +103,7 @@ import ProjectDashboard from './container/ProjectDashboard.vue'
 import TaskOverview from './container/TaskOverview.vue'
 
 import { store } from './store.js'
+import Moment from 'moment'
 
 export default {
 	name: 'App',
@@ -106,6 +111,7 @@ export default {
 		Content,
 		AppContent,
 		AppNavigation,
+		AppNavigationCounter,
 		AppNavigationItem,
 		AppSidebar,
 		AppSidebarTab,
@@ -123,7 +129,7 @@ export default {
 			date2: Date.now() + 86400000 * 3 + Math.floor(Math.random() * 86400000 / 2),
 			show: false, // Shoe demo sidebar
 			starred: false,
-			customerList: null,
+			customerListData: null,
 			customerHeader: ['id', 'name', 'id'],
 		}
 	},
@@ -137,12 +143,26 @@ export default {
 		contentType() {
 			return this.$store.state.contentType
 		},
+		customerList() {
+			if (this.customerListData) {
+				const cld = this.customerListData
+				return cld.sort((a, b) => { return b.mtime - a.mtime })
+			}
+			return null
+		},
+
 	},
 	mounted() {
-		store.getCustomers().then(response => (this.customerList = response))
+		store.getCustomers().then(response => (this.customerListData = response))
 		this.$store.dispatch('task/loadData')
 	},
 	methods: {
+		daysSinceLastChange(customer) {
+			const x = new Moment()
+			const y = new Moment(customer.mtime)
+			const duration = Moment.duration(x.diff(y)).asDays()
+			return parseInt(duration)
+		},
 		showProject(project) {
 			this.$store.dispatch('navtoProject', project.path)
 		},
