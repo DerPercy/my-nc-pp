@@ -56,9 +56,11 @@ export default {
 					wikipageHash: this.wikipageData.hash,
 				})
 				.then(response => {
+					this.$store.dispatch('handleHTTPResponse', response)
 					this.wikipageData = response.data.data
-
-					// console.log(response)
+				})
+				.catch(response => {
+					this.$store.dispatch('handleHTTPResponseError', response)
 				})
 			this.wikiPageEditedContent = null
 		},

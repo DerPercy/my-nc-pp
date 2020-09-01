@@ -9,6 +9,7 @@
 <script>
 
 import marked from 'marked'
+import mermaid from 'mermaid'
 
 export default {
 	components: {
@@ -53,6 +54,19 @@ export default {
 					// Internal link
 					return '<a href="#" data-type="internal-link" data-href="' + href + '">' + text + '</a>'
 				},
+				code(src, tokens) {
+					if (tokens !== 'diagramm') {
+						return '<pre><code class="' + tokens + ' language-' + tokens + '">' + src + '</code></pre>'
+					}
+					try {
+						mermaid.parse(src)
+					} catch (e) {
+						console.log(e.str)
+						return '<span>Error at parsing mermaid graph (see console)</span>'
+					}
+					// const className = props.language && `language-${props.language}`;
+					return '<span class="mermaid">' + src + '</span>'
+				}
 			}
 			marked.use({ renderer })
 			return marked(this.content)
@@ -66,6 +80,14 @@ export default {
 			}
 		},
 	},
+	mounted() {
+		console.log('mounted')
+		mermaid.contentLoaded()
+	},
+	updated() {
+		console.log('updated')
+		mermaid.contentLoaded()
+	}
 }
 
 </script>

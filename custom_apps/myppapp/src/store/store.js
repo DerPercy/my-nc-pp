@@ -127,6 +127,13 @@ const store = new Vuex.Store({
 		},
 	},
 	actions: {
+		// Handle a HTTP-Response and display messages etc
+		handleHTTPResponse(context, response) {
+			console.log('HTTP-Response', response.data)
+		},
+		handleHTTPResponseError(context, response) {
+			console.log('HTTP-Response-Error', response.data)
+		},
 		navtoTimetracking(context) {
 			context.commit('openTRContent')
 		},
