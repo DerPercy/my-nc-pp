@@ -39,6 +39,14 @@ class CustomerService {
 			$folderData = [];
 			$folderData["name"] = $folder->getName();
 			$folderData["mtime"] = $folder->getMTime() * 1000; // Last Modfied Time
+			// >> Settings
+			try {
+				$json = $folder->get('settings.json')->getContent();
+				$parsed = json_decode($json);
+				$folderData["settings"] = $parsed;
+			} catch (\OCP\Files\NotFoundException $e) {
+			}
+			// << Settings
 
 			// Get Projects
 			$projects = [];
