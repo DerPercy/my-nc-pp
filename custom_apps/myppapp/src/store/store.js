@@ -119,6 +119,10 @@ const store = new Vuex.Store({
 			state.contentProjectData = data
 			state.contentType = 'project'
 		},
+		openCustomerDashboard: (state, data) => {
+			state.contentCustomerData = data
+			state.contentType = 'customer'
+		},
 		projectChangeWikiPage: (state, wikiData) => {
 
 			const data = Object.assign({}, state.contentProjectData)
@@ -157,6 +161,9 @@ const store = new Vuex.Store({
 				.then(response => {
 					context.commit('openProjectDashboard', response.data)
 				})
+		},
+		navtoCustomer(context, customer) {
+			context.commit('openCustomerDashboard', customer)
 		},
 		projectDashboardNavWiki(context, navdata) {
 			axios

@@ -24,7 +24,8 @@
 					:key="index"
 					:title="customer.name"
 					:allow-collapse="true"
-					icon="icon-folder">
+					icon="icon-folder"
+					@click="showCustomer(customer)">
 					<AppNavigationCounter slot="counter" :highlighted="false">
 						{{daysSinceLastChange(customer)}}
 					</AppNavigationCounter>
@@ -39,6 +40,7 @@
 			<div id="app-content-wrapper">
 				<TaskOverview v-if="contentType == 'tasks'" />
 				<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
+				<CustomerDashboard v-if="contentType == 'customer'" />
 				<TimeRecording v-if="contentType == 'timetracking'" />
 			</div>
 		</AppContent>
@@ -100,6 +102,7 @@ import TimeRecording from './components/TimeRecording.vue'
 import AsideTimeRecording from './components/AsideTimeRecording.vue'
 
 import ProjectDashboard from './container/ProjectDashboard.vue'
+import CustomerDashboard from './container/CustomerDashboard.vue'
 import TaskOverview from './container/TaskOverview.vue'
 
 import { store } from './store.js'
@@ -120,6 +123,7 @@ export default {
 		TimeRecording,
 		AsideTimeRecording,
 		ProjectDashboard,
+		CustomerDashboard,
 		TaskOverview,
 	},
 	data() {
@@ -165,6 +169,9 @@ export default {
 		},
 		showProject(project) {
 			this.$store.dispatch('navtoProject', project.path)
+		},
+		showCustomer(customer) {
+			this.$store.dispatch('navtoCustomer', customer)
 		},
 		showTimetracking() {
 			this.$store.dispatch('navtoTimetracking')

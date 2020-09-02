@@ -48,6 +48,14 @@ class CustomerService {
 			}
 			// << Settings
 
+			// readme
+			try {
+				$readme = $folder->get('README.md');
+				$folderData["readme"] = $readme->getInternalPath();
+			} catch (\OCP\Files\NotFoundException $e) {
+			}
+
+
 			// Get Projects
 			$projects = [];
 			try {
