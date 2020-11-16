@@ -1,6 +1,8 @@
 /nextcloud/
 /custom_apps/bruteforcesettings/
 /custom_apps/contacts/
+/custom_apps/forms/
+/custom_apps/files_automatedtagging/
 /custom_apps/myppapp/js/
 /custom_apps/myppapp/node_modules/
 /docker/composer/volume/

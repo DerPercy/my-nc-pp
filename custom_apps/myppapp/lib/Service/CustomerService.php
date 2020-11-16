@@ -88,6 +88,9 @@ class CustomerService {
 		}
 
 		public function getTimetracking(string $userId,IRootFolder $rootFolder){
+		/*	set_error_handler(function($errno, $errstr, $errfile, $errline ){
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+});*/
 			$data = $this->getCustomerOverview($userId,$rootFolder);
 			$timeTracking = [];
 			foreach ($data as &$customer) {
@@ -100,8 +103,19 @@ class CustomerService {
 							$ttEntry = [];
 							$lineData = str_getcsv ($row);
 							// Getting Line Data
-							$ttEntry["start"] = date_create_from_format ( "d.m.Y H:i" , $lineData[0]." ".$lineData[1])->getTimestamp();
-							$ttEntry["end"] = date_create_from_format ( "d.m.Y H:i" , $lineData[0]." ".$lineData[2])->getTimestamp();
+							if (false === $timestamp = date_create_from_format ( "d.m.Y H:i" , $lineData[0]." ".$lineData[1])) {
+								$data = [];
+								$data["message"] = "Error at ".$project["path"]." - row: ".$row;
+								return $data;
+    					}
+							$ttEntry["start"] = $timestamp->getTimestamp();
+							if (false === $timestamp = date_create_from_format ( "d.m.Y H:i" , $lineData[0]." ".$lineData[2])) {
+								$data = [];
+								$data["message"] = "Error at ".$project["path"]." - row: ".$row;
+								return $data;
+    					}
+
+							$ttEntry["end"] = $timestamp->getTimestamp();
 							$time = explode(':', $lineData[3]);
 							$ttEntry["pause"] = $time[0]*3600 + $time[1]*60;
 							$ttEntry["activity"] = $lineData[4];
@@ -111,6 +125,10 @@ class CustomerService {
 							array_push($timeTracking,$ttEntry);
 						}
 					} catch (\OCP\Files\NotFoundException $e) {
+					/*} catch (\Exception $e) {
+    				$data = [];
+						$data["message"] = "Error at ".$project["path"];
+						return $data;*/
 					}
 				}
 			}
