@@ -17,9 +17,10 @@ docker-compose exec my_phpunit php /usr/local/bin/phpunit
 
 
 ## Docker PHPUnit
+```
 sudo docker-compose run composer composer require --dev phpunit/phpunit
 sudo docker-compose run composer ./vendor/bin/phpunit ./custom_apps/myppapp/tests --color=auto
-
+```
 
 ### Find PHPUnit on Container
 sudo docker-compose run composer find / -name "phpunit"
