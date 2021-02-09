@@ -4,11 +4,29 @@ namespace My\OrgMode;
 class Node {
   private $subNodes = array();
   private $parentNode = null;
-  function __construct(string $raw){
-
+  private $title = null;
+  private $properties = array(); //[["name","value"],...]
+  function __construct(string $raw, string $title = ""){
+    $this->title = $title;
   }
   public function isRootNode() {
     return true;
+  }
+
+  public function getTitle():string{
+    return $this->title;
+  }
+
+  public function setProperties(array $props) {
+    $this->properties = $props;
+  }
+  public function getProperty(string $propName):string{
+    foreach ($this->properties as &$prop) {
+      if($prop["name"] == $propName){
+        return $prop["value"];
+      }
+    }
+    return null;
   }
 
   public function setParentNode(Node $node){

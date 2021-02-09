@@ -37,9 +37,12 @@ class Parser {
         while($this->currentNode->getLevel() >= $token->getLevel()){
           $this->currentNode = $this->currentNode->getParentNode();
         }
-        $newNode = new Node("");
+        $newNode = new Node("",$token->getTitle());
         $this->currentNode->addSubNode($newNode);
         $this->currentNode = $newNode;
+        break;
+      case LexerToken::TYPE_PROPERTIES:
+        $this->currentNode->setProperties($token->properties);
         break;
     }
   }
