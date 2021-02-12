@@ -44,6 +44,11 @@ class Parser {
       case LexerToken::TYPE_PROPERTIES:
         $this->currentNode->setProperties($token->properties);
         break;
+      case LexerToken::TYPE_LOGBOOK:
+        foreach ($token->logbookLines as &$logbookLine) {
+          $this->currentNode->getLogbook()->addEntry($logbookLine);
+        }
+        break;
     }
   }
 }

@@ -5,5 +5,27 @@
  :END:
 - Notiz
 ** Header 1.1
+  :LOGBOOK:
+   CLOCK: [2021-02-05 Fr 08:00]--[2021-02-05 Fr 15:00] =>  5:00
+   CLOCK: [2021-02-04 Do 12:45]--[2021-02-04 Do 16:15] =>  3:30
+   CLOCK: [2021-02-03 Mi 08:00]--[2021-02-03 Mi 17:00] =>  2:00
+   CLOCK: [2021-02-02 Di 11:00]--[2021-02-02 Di 12:00] =>  1:00
+   CLOCK: [2021-02-01 Mo 11:00]--[2021-02-01 Mo 14:00] =>  2:00
+   CLOCK: [2021-01-28 Do 14:00]--[2021-01-28 Do 15:00] =>  1:00
+   CLOCK: [2021-01-27 Mi 13:00]--[2021-01-27 Mi 15:00] =>  2:00
+   CLOCK: [2021-01-26 Di 13:00]--[2021-01-26 Di 15:00] =>  2:00
+   CLOCK: [2020-12-02 Mi 08:00]--[2020-12-02 Mi 17:00] =>  4:00
+   CLOCK: [2020-12-01 Di 08:00]--[2020-12-01 Di 17:00] =>  4:00
+   :END:
 * Header 2
 Header 3
+
+* Testcases
+** Todo and Tagging
+*** TODO A header with tags :tag1:tag2:anothertag:
+
+* Robustness
+** LOGBOOK
+  :LOGBOOK:
+  CLOCK: [thisshouldnotcrashtheparser]--[2021-02-05 Fr 15:00] =>  5:00
+  :END:
