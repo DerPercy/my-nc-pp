@@ -7,10 +7,12 @@ class Node {
   private $title = null;
   private $properties = array(); //[["name","value"],...]
   private $logbook;
+  private $data;
 
-  function __construct(string $raw, string $title = ""){
+  function __construct(string $raw, string $title = "", array $data = []){
     $this->title = $title;
     $this->logbook = new NodeLogbook();
+    $this->data = $data;
   }
   public function isRootNode() {
     return true;
@@ -58,6 +60,16 @@ class Node {
 
   public function getLogbook():NodeLogbook{
     return $this->logbook;
+  }
+
+  public function getTodoFlag(){
+    return $this->data["todoflag"];
+  }
+  public function getTags() {
+    return $this->data["tags"];
+  }
+  public function getPriority() {
+    return $this->data["prio"];
   }
 }
 

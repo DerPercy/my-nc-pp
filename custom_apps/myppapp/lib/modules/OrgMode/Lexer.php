@@ -55,21 +55,12 @@ class Lexer {
           if($this->isHeaderToken($propLine) || $this->isBlockEndToken($propLine)){
             $inProps = false;
           } else {
-            //print($propLine);
             if($this->isLogbookLineToken($propLine)){
               $logbookLine = array();
-              //$logbookLine["start"] = date_parse_from_format("Y-m-d * H:i", $this->matches[1]);
               $logbookLine["start"] = date_create_from_format("Y-m-d * H:i", $this->matches[1]);
               $logbookLine["end"] = date_create_from_format("Y-m-d * H:i", $this->matches[2]);
               $logbookLine["duration"] = ( $this->matches[3] * 60 ) + $this->matches[4];
               $lexerLogbookToken->addLine($logbookLine);
-              //$lexerPropToken->addProperty($this->matches[1],$this->matches[2]);
-              //print($this->matches[1]); // From: f.e. 2021-02-05 Fr 08:00
-              //print($this->matches[2]); // Till: f.e. 2021-02-05 Fr 08:00
-              //print($this->matches[3]); // Duration: f.e. 2:30
-              //print_r(date_parse_from_format("Y-m-d * H:i", $this->matches[1]));
-
-
             }
           }
         }
@@ -129,8 +120,36 @@ class LexerToken {
 class LexerTokenHeader extends LexerToken {
   private $level;
   private $title;
+  private $todoFlags = ["TODO","DONE"];
+  private $data = array();
   function __construct(string $raw, string $title, int $level){
      parent::__construct($raw,LexerToken::TYPE_HEADER);
+
+     // Scan title for Todo Flags
+     foreach ($this->todoFlags as &$flag) {
+       if(substr_compare($title, $flag." ", 0, strlen($flag)+1) === 0){
+         $title = substr($title,strlen($flag)+1);
+         $this->data["todoflag"] = $flag;
+         break;
+       }
+     }
+
+     // Scan title for priority
+     if(preg_match("/^\s*\[#([A-Z])\]\s\s*(.*)\s*$/", $title, $matches)){
+       //print("Prio found".$matches[1]);
+       $title = trim($matches[2]);
+       $this->data["prio"] = $matches[1];
+     }
+
+     // Scan title for Tags
+     $this->data["tags"] = [];
+     $tagregex = "/^\s*(.*)\s*:([^ :]*):(\s*)$/";
+     while(preg_match($tagregex, $title, $matches)){
+       $title = trim($matches[1]);
+       array_splice($this->data["tags"], 0, 0, $matches[2]);
+       $tagregex = "/^\s*(.*)\s*:([^ :]*)(\s*)$/";
+     }
+
      $this->level = $level;
      $this->title = $title;
   }
@@ -140,6 +159,9 @@ class LexerTokenHeader extends LexerToken {
   }
   function getLevel():int{
     return $this->level;
+  }
+  function getData():array{
+    return $this->data;
   }
 }
 class LexerPropertiesToken extends LexerToken {

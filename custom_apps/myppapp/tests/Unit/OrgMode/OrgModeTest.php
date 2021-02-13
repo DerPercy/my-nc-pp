@@ -35,6 +35,16 @@ class OrgModeTest extends \PHPUnit\Framework\TestCase {
     $node = $this->rootNode->getSubNodes()[0]->getSubNodes()[0];
     $this->assertEquals("Header 1.1", $node->getTitle(), "Wrong node");
     $this->assertEquals("Value 2", $node->getProperty("PROP2",true), "Wrong determination of inherited property");
+  }
+
+  public function testTodoAndTags(){
+    $node = $this->rootNode->getSubNodes()[2]->getSubNodes()[0]->getSubNodes()[0];
+    $this->assertEquals("TODO", $node->getTodoFlag(), "Wrong todo flag");
+    $this->assertEquals(3, count($node->getTags()), "Wrong tag number");
+    $this->assertEquals("tag2", $node->getTags()[1], "Wrong tag key");
+    $this->assertEquals("A header with tags", $node->getTitle(), "Wrong title");
+    $this->assertEquals("A", $node->getPriority(), "Wrong priority");
+
 
   }
 }

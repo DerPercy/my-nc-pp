@@ -22,7 +22,7 @@ Header 3
 
 * Testcases
 ** Todo and Tagging
-*** TODO A header with tags :tag1:tag2:anothertag:
+*** TODO [#A] A header with tags :tag1:tag2:anothertag:
 
 * Robustness
 ** LOGBOOK

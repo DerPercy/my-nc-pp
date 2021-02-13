@@ -37,7 +37,7 @@ class Parser {
         while($this->currentNode->getLevel() >= $token->getLevel()){
           $this->currentNode = $this->currentNode->getParentNode();
         }
-        $newNode = new Node("",$token->getTitle());
+        $newNode = new Node("",$token->getTitle(),$token->getData());
         $this->currentNode->addSubNode($newNode);
         $this->currentNode = $newNode;
         break;
