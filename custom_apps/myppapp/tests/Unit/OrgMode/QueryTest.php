@@ -18,8 +18,11 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
   }
   public function testQuery() {
     $results = $this->query->logbookQuery($this->rootNode)->getResult();
-    $this->assertEquals(3, count($results), "Wrong results");
+    $this->assertEquals(5, count($results), "Wrong results");
     $this->assertEquals("Header 1.1", $results[0]->getNode()->getTitle(), "Wrong assigned node");
+
+    $results = $this->query->logbookQuery($this->rootNode,["month" => 2, "year" => 2021])->getResult();
+    $this->assertEquals(2, count($results), "Wrong filtered results");
 
   }
 
