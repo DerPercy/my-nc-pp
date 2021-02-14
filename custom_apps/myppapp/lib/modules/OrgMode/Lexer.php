@@ -7,7 +7,8 @@ require_once __DIR__.'/Stream.php';
 use My\OrgMode\Stream;
 
 class Lexer {
-  private Stream $stream;
+  //private Stream $stream;
+	private $stream;
   private $matches = array();
 
   function __construct(Stream $stream){
