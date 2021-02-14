@@ -25,5 +25,8 @@ return [
 
 		['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
     ['name' => 'api#dummy', 'url' => '/dummy', 'verb' => 'GET'],
+
+    ['name' => 'orgMode#createTimesheet', 'url' => '/omts', 'verb' => 'POST'],
+
   ]
 ];

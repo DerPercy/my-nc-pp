@@ -16,6 +16,11 @@
 
 				</AppNavigationItem>
 				<AppNavigationItem
+					key="toOrgMode"
+					title="Org Mode"
+					icon="icon-external"
+					@click="showOrgMode()" />
+				<AppNavigationItem
 					key="tasks"
 					title="Aufgaben"
 					icon="icon-checkmark"
@@ -42,6 +47,7 @@
 				<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
 				<CustomerDashboard v-if="contentType == 'customer'" />
 				<TimeRecording v-if="contentType == 'timetracking'" />
+				<OrgMode v-if="contentType == 'orgmode'" />
 			</div>
 		</AppContent>
 		<AsideTimeRecording v-show="asideType == 'tr'" />
@@ -99,6 +105,7 @@ import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import TimeRecording from './components/TimeRecording.vue'
+import OrgMode from './components/OrgMode.vue'
 import AsideTimeRecording from './components/AsideTimeRecording.vue'
 
 import ProjectDashboard from './container/ProjectDashboard.vue'
@@ -125,6 +132,7 @@ export default {
 		ProjectDashboard,
 		CustomerDashboard,
 		TaskOverview,
+		OrgMode,
 	},
 	data() {
 		return {
@@ -172,6 +180,9 @@ export default {
 		},
 		showCustomer(customer) {
 			this.$store.dispatch('navtoCustomer', customer)
+		},
+		showOrgMode() {
+			this.$store.dispatch('navtoOrgMode')
 		},
 		showTimetracking() {
 			this.$store.dispatch('navtoTimetracking')

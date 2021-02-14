@@ -114,6 +114,7 @@ const store = new Vuex.Store({
 		openTRSideBar: (state, timerecorddata) => { state.asideTRData = timerecorddata; state.asideType = 'tr' },
 		openTRContent: (state) => { state.contentType = 'timetracking' },
 		openTaskContent: (state) => { state.contentType = 'tasks' },
+		openOrgMode: (state) => { state.contentType = 'orgmode' },
 		openProjectDashboard: (state, data) => {
 			state.contentProjectPath = data.path
 			state.contentProjectData = data
@@ -147,6 +148,9 @@ const store = new Vuex.Store({
 				.then(response => {
 					// context.commit('openProjectDashboard', response.data)
 				})
+		},
+		navtoOrgMode(context) {
+			context.commit('openOrgMode')
 		},
 		navtoTasks(context) {
 			context.commit('openTaskContent')
