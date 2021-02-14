@@ -11,7 +11,7 @@ class Node {
 
   function __construct(string $raw, string $title = "", array $data = []){
     $this->title = $title;
-    $this->logbook = new NodeLogbook();
+    $this->logbook = new NodeLogbook($this);
     $this->data = $data;
   }
   public function isRootNode() {
@@ -75,18 +75,24 @@ class Node {
 
 class NodeLogbook {
   private $entries = array();
+  private $node = null;
+  function __construct(Node $node){
+    $this->node = $node;
+  }
   public function getEntries(){
     return $this->entries;
   }
   public function addEntry(array $entry){
-    $nbEntry = new NodeLogbookEntry($entry);
+    $nbEntry = new NodeLogbookEntry($this->node, $entry);
     array_push($this->entries,$nbEntry);
   }
 }
 class NodeLogbookEntry {
   private $data;
-  function __construct(array $data){
+  private $node;
+  function __construct(Node $node, array $data){
     $this->data = $data;
+    $this->node = $node;
   }
 
   public function getStartDate(string $format){
@@ -95,8 +101,36 @@ class NodeLogbookEntry {
   public function getEndDate(string $format){
     return date_format($this->data["end"], $format);
   }
+  public function getNode(){
+    return $this->node;
+  }
+
+  private function minutesToUI(int $time, $format = '%01d:%02d'):string {
+    if ($time < 1) {
+        return '00:00';
+    }
+    $hours = floor($time / 60);
+    $minutes = ($time % 60);
+    return sprintf($format, $hours, $minutes);
+  }
   public function getDuration(){
     return $this->data["duration"];
   }
+  public function getUIDuration(){
+    return $this->minutesToUI($this->getDuration());
+  }
+  public function getPause():int{
+    $dateInterval = $this->data["end"]->diff($this->data["start"]);
+    $daysDiff = (int)$dateInterval->format("%a");
+    $hoursDiff = (int)$dateInterval->format("%h");
+    $minDiff = (int)$dateInterval->format("%i");
+    $diff = $mindiff + ($hoursDiff * 60) + ($daysDiff * 24 * 60 ) - $this->getDuration();;
+    return $diff;
+  }
+  public function getUIPause(){
+    return $this->minutesToUI($this->getPause());
+  }
+
+
 }
 ?>

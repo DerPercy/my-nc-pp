@@ -28,6 +28,9 @@ class OrgModeTest extends \PHPUnit\Framework\TestCase {
   public function testLogbook() {
     $this->assertEquals("2021", $this->rootNode->getSubNodes()[0]->getSubNodes()[0]->getLogbook()->getEntries()[0]->getStartDate("Y"), "Wrong determination of logbook date");
     $this->assertEquals(210, $this->rootNode->getSubNodes()[0]->getSubNodes()[0]->getLogbook()->getEntries()[1]->getDuration(), "Wrong determination of logbook duration");
+    $this->assertEquals("3:30", $this->rootNode->getSubNodes()[0]->getSubNodes()[0]->getLogbook()->getEntries()[1]->getUIDuration(), "Wrong determination of logbook ui duration");
+    $this->assertEquals(120, $this->rootNode->getSubNodes()[0]->getSubNodes()[0]->getLogbook()->getEntries()[0]->getPause(), "Wrong determination of logbook pause");
+    $this->assertEquals("2:00", $this->rootNode->getSubNodes()[0]->getSubNodes()[0]->getLogbook()->getEntries()[0]->getUIPause(), "Wrong determination of logbook ui pause");
     $this->assertEquals("03.02.2021", $this->rootNode->getSubNodes()[0]->getSubNodes()[0]->getLogbook()->getEntries()[2]->getEndDate("d.m.Y"), "Wrong determination of logbook enddate");
   }
 

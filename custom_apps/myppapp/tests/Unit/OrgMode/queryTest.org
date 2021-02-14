@@ -1,0 +1,12 @@
+* Header 1
+ :PROPERTIES:
+ :PROP1: Value 1
+ :PROP2: Value 2
+ :END:
+- Notiz
+** TODO Header 1.1 :tag1:
+  :LOGBOOK:
+   CLOCK: [2021-02-05 Fr 08:00]--[2021-02-05 Fr 15:00] =>  5:00
+   CLOCK: [2021-02-04 Do 12:45]--[2021-02-04 Do 16:15] =>  3:30
+   CLOCK: [2021-02-03 Mi 08:00]--[2021-02-03 Mi 17:00] =>  2:00
+   :END:
