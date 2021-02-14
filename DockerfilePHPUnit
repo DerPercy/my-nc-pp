@@ -1,2 +1,9 @@
 # PHPUnit Docker Container.
-FROM composer:1.9.3
+FROM php:7.3.19
+
+RUN  apt-get update \
+	&& apt-get install -y wget
+
+RUN wget -O phpunit https://phar.phpunit.de/phpunit-9.5.phar
+RUN chmod +x phpunit
+RUN ./phpunit --version

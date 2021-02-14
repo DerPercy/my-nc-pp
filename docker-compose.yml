@@ -12,7 +12,7 @@ services:
     ports:
       - "8080:80"
     privileged: true
-  composer:
+  phpunit:
     container_name: my_phpunit
     build:
       context: .
@@ -23,7 +23,7 @@ services:
       - ./docker/composer/volume:/app
       - ./custom_apps/:/app/custom_apps
   php:
-    image: php:7.4-cli
+    image: php:7.3.19-cli
     volumes:
       - .:/app
     working_dir: /app
