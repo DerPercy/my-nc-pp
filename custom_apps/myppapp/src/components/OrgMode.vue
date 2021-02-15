@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>Hello OrgMode</div>
-		<span>Pfad: </span><input v-model="path" />
+		<span>Pfad: </span><input v-model="path" v-bind:style="{width: '270px'}" />
 		<div>
 			Ort: <input v-model="ort" />
 		</div>
@@ -12,7 +12,7 @@
 			Jahr: <input v-model="jahr" />
 		</div>
 		<div>
-			Export: <input v-model="exportpfad" />
+			Export: <input v-model="exportpfad" v-bind:style="{width: '270px'}" />
 		</div>
 		<button @click="createTN">
 			TN erzeugen

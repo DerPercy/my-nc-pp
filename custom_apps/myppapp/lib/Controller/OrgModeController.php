@@ -7,9 +7,11 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\IRootFolder;
 
-require_once __DIR__."/../modules/OrgMode/Stream.php";
+
 require_once __DIR__."/../modules/OrgMode/Parser.php";
+require_once __DIR__."/../modules/OrgMode/Query.php";
 use My\OrgMode\Parser;
+use My\OrgMode\Query;
 
 class OrgModeController extends \OCP\AppFramework\ApiController {
 	private $userId;
@@ -26,11 +28,43 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 	 */
 	public function createTimesheet($file, $ort, $export, $jahr, $monat) {
 		try {
-			$this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
+			$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
+			$parser = new \My\OrgMode\Parser();
+	    $rootNode = $parser->parseString($orgContent);
+
+			$query = new \My\OrgMode\Query();
+			$results = $query->logbookQuery($rootNode,["month" => $monat, "year" => $jahr])->getResult();
+			$csvData = [];
+			foreach ($results as &$result) {
+				$csvLine = [];
+				array_push($csvLine,$result->getStartDate( "d.m.Y" )); // 1. Date
+				array_push($csvLine,$ort); // 2. Ort
+				try {
+					array_push($csvLine,strval($result->getNode()->getTitle()));
+				}catch(Exception $etwo){
+					array_push($csvLine,"???");
+				}
+				array_push($csvLine,$result->getStartDate( "H:i" ));
+				array_push($csvLine,$result->getEndDate( "H:i" ));
+				array_push($csvLine,$result->getUIPause( ));
+				array_push($csvLine,$result->getUIDuration( ));
+				array_push($csvLine,$result->getNode( )->getProperty("CUSTOMER",true));
+				array_push($csvLine,$result->getNode( )->getProperty("PROJECT",true));
+
+				array_push($csvData,$csvLine);
+			}
+
+			$file = $this->rootFolder->newFile($this->userId.'/files/'.$export);
+			$fp = $file->fopen("w");
+			foreach ($csvData as $fields) {
+				fputcsv($fp, $fields);
+			}
+			fclose($fp);
+
 
 		} catch (\OCP\Files\NotFoundException $e) {
 			return new DataResponse([ "File not found"]);
 		}
-		return new DataResponse([]);
+		return new DataResponse(["count" => count($results)]);
 	}
 }
