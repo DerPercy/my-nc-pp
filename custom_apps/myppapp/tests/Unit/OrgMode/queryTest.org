@@ -5,6 +5,9 @@
  :END:
 - Notiz
 ** TODO Header 1.1 :tag1:
+	:PROPERTIES:
+	:PROP2: Value 2
+	:END:
   :LOGBOOK:
    CLOCK: [2021-02-05 Fr 08:00]--[2021-02-05 Fr 15:00] =>  5:00
    CLOCK: [2021-02-04 Do 12:45]--[2021-02-04 Do 16:15] =>  3:30
@@ -12,3 +15,27 @@
    CLOCK: [2020-02-03 Mi 08:00]--[2020-02-03 Mi 17:00] =>  2:00
    CLOCK: [2020-01-03 Mi 08:00]--[2020-01-03 Mi 17:00] =>  2:00
    :END:
+
+* Timesorter
+** Task 1
+	:PROPERTIES:
+	:type: Timesorter
+	:END:
+	:LOGBOOK:
+   CLOCK: [2021-02-05 Fr 08:00]--[2021-02-05 Fr 15:00] =>  5:00
+   CLOCK: [2020-02-03 Mi 08:00]--[2020-02-03 Mi 17:00] =>  2:00
+   :END:
+** Task 2
+ 	:PROPERTIES:
+ 	:type: Timesorter
+ 	:END:
+ 	:LOGBOOK:
+    CLOCK: [2020-02-04 Mi 08:00]--[2020-02-04 Mi 17:00] =>  2:00
+  :END:
+** Task 3
+	 	:PROPERTIES:
+	 	:type: Timesorter
+	 	:END:
+	 	:LOGBOOK:
+			CLOCK: [2020-02-03 Mi 07:59]--[2020-02-03 Mi 17:00] =>  2:00
+		:END:
