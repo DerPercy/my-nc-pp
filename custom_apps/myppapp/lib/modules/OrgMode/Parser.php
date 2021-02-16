@@ -16,9 +16,14 @@ use My\OrgMode\LexerToken;
 
 class Parser {
   private $currentNode = null;
+	private $settings;
+	function __construct(array $settings = []){
+    $this->settings = $settings;
+  }
+
   public function parseString($string){
     $stream = new Stream($string);
-    $lexer = new Lexer($stream);
+    $lexer = new Lexer($stream,$this->settings);
 
     $rootNode = new Node("");
     $this->currentNode = $rootNode;

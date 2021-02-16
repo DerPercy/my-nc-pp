@@ -10,7 +10,7 @@ class OrgModeTest extends \PHPUnit\Framework\TestCase {
   public function setUp():void {
     $filecontent = $file = file_get_contents(__DIR__.'/test.org');
     //print($filecontent);
-    $parser = new \My\OrgMode\Parser();
+    $parser = new \My\OrgMode\Parser([ "todoflags" => ["TODO","DONE","INTEST"] ]);
     $this->rootNode = $parser->parseString($filecontent);
   }
   public function testSubNodes() {
@@ -47,6 +47,9 @@ class OrgModeTest extends \PHPUnit\Framework\TestCase {
     $this->assertEquals("tag2", $node->getTags()[1], "Wrong tag key");
     $this->assertEquals("A header with tags", $node->getTitle(), "Wrong title");
     $this->assertEquals("A", $node->getPriority(), "Wrong priority");
+
+		$node = $this->rootNode->getSubNodes()[2]->getSubNodes()[0]->getSubNodes()[1];
+		$this->assertEquals("This is in test", $node->getTitle(), "Wrong title part 2");
 
 
   }

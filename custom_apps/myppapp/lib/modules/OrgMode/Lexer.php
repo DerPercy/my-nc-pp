@@ -10,9 +10,10 @@ class Lexer {
   //private Stream $stream;
 	private $stream;
   private $matches = array();
-
-  function __construct(Stream $stream){
+	private $settings;
+  function __construct(Stream $stream, array $settings){
     $this->stream = $stream;
+		$this->settings = $settings;
   }
   public function hasNext(){
     return $this->stream->hasNextLine();
@@ -22,7 +23,7 @@ class Lexer {
     //print($line);
     // ========== HEADER ==========
     if($this->isHeaderToken($line)){
-      return new LexerTokenHeader($line,$this->matches[2],strlen($this->matches[1]));
+      return new LexerTokenHeader($line,$this->matches[2],strlen($this->matches[1]), $this->settings);
     }
     // ========== PROPERTIES ==========
     if($this->isPropertyStartToken($line)){
@@ -123,8 +124,11 @@ class LexerTokenHeader extends LexerToken {
   private $title;
   private $todoFlags = ["TODO","DONE"];
   private $data = array();
-  function __construct(string $raw, string $title, int $level){
+  function __construct(string $raw, string $title, int $level, array $settings){
      parent::__construct($raw,LexerToken::TYPE_HEADER);
+		 if($settings["todoflags"]){
+			 $this->todoFlags = $settings["todoflags"];
+		 }
 
      // Scan title for Todo Flags
      foreach ($this->todoFlags as &$flag) {

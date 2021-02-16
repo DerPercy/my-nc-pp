@@ -98,8 +98,14 @@ class NodeLogbookEntry {
   public function getStartDate(string $format){
     return date_format($this->data["start"], $format);
   }
+	public function getStartDateObject(){
+    return $this->data["start"];
+  }
   public function getEndDate(string $format){
     return date_format($this->data["end"], $format);
+  }
+	public function getEndDateObject(){
+    return $this->data["end"];
   }
   public function getNode(){
     return $this->node;
