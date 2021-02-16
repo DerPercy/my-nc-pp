@@ -7,6 +7,17 @@ use My\OrgMode\Node;
 
 
 class Query {
+	public function query(Node $node, array $query = [], array $sort = [], QueryResult $result = null):QueryResult {
+		if($result == null){
+			$result = new QueryResult();
+		}
+		// Scan for children
+    foreach ($node->getSubNodes() as &$subnode) {
+			$result->addNode($subnode);
+      $this->query($subnode,$query,$sort,$result);
+    }
+		return $result;
+	}
   public function logbookQuery(Node $node,array $query = [], QueryLogbookResult $result = null ):QueryLogbookResult{
     if($result == null){
       $result = new QueryLogbookResult();
@@ -44,6 +55,15 @@ class Query {
   }
 }
 
+class QueryResult {
+	private $result = array();
+	public function addNode(Node $node) {
+		array_push($this->result,$node);
+	}
+	public function getResult() {
+		return $this->result;
+	}
+}
 class QueryLogbookResult {
   private $result = array();
   public function addLogbookNode(NodeLogbookEntry $logbookEntry){

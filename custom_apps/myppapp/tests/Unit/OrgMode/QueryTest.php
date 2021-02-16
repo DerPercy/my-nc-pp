@@ -16,7 +16,13 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
     $this->rootNode = $parser->parseString($filecontent);
     $this->query = new \My\OrgMode\Query();
   }
-  public function testQuery() {
+
+	public function testQuery() {
+		$results = $this->query->Query($this->rootNode)->getResult();
+		$this->assertEquals(6, count($results), "Wrong results");
+
+	}
+  public function testLogbookQuery() {
     $results = $this->query->logbookQuery($this->rootNode,["properties" => ["PROP2" => "Value 2"] ])->getResult();
     $this->assertEquals(5, count($results), "Wrong results");
     $this->assertEquals("Header 1.1", $results[0]->getNode()->getTitle(), "Wrong assigned node");
@@ -26,10 +32,11 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
 
   }
 
-	public function testDateSort() {
+	public function testLogbookDateSort() {
+		// Sort logbook by startdate ascending by default
 		$results = $this->query->logbookQuery($this->rootNode,["properties" => ["type" => "Timesorter"] ])->getResult();
 		$this->assertEquals(4, count($results), "Wrong results TestDateSort");
-		//$this->assertEquals("Task 3", $results[0]->getNode()->getTitle(), "Wrong assigned testDateSort[0]");
+		$this->assertEquals("Task 3", $results[0]->getNode()->getTitle(), "Wrong assigned testDateSort[0]");
 		$this->assertEquals("Task 1", $results[1]->getNode()->getTitle(), "Wrong assigned testDateSort[1]");
 		$this->assertEquals("Task 2", $results[2]->getNode()->getTitle(), "Wrong assigned testDateSort[2]");
 		$this->assertEquals("Task 1", $results[3]->getNode()->getTitle(), "Wrong assigned testDateSort[3]");
