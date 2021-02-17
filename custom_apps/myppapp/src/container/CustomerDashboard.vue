@@ -1,6 +1,6 @@
 <template>
 	<div v-if="projectData">
-		<h2>Hello Customer Dashboard {{projectData.name}}</h2>
+		<h2>Hello Customer Dashboard {{ projectData.name }}</h2>
 		<WikiPage
 			v-if="projectData.readme"
 			:wiki-page-url="projectData.readme" />

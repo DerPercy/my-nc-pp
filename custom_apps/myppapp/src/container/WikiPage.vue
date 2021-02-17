@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div>{{wikiPageUrl}}</div>
+		<div>{{ wikiPageUrl }}</div>
 		<MarkdownPage
 			v-if="wikipageData"
 			:value="wikipageData.content"
@@ -35,6 +35,9 @@ export default {
 		}
 	},
 	computed: {
+	},
+	mounted() {
+		this.fetchWikiPageData(this.$props.wikiPageUrl)
 	},
 	methods: {
 		navToWiki(sourceFile, href) {
@@ -77,9 +80,6 @@ export default {
 					// console.log(response)
 				})
 		},
-	},
-	mounted() {
-		this.fetchWikiPageData(this.$props.wikiPageUrl)
 	},
 }
 </script>

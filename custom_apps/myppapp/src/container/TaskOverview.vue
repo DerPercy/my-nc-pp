@@ -4,7 +4,9 @@
 		<ul>
 			<li v-for="(task, index) in tasks" :key="index" :class="task.classNames">
 				<div>{{ task.name }}</div>
-				<div class="task-content-line-two">{{ task.file }}</div>
+				<div class="task-content-line-two">
+					{{ task.file }}
+				</div>
 			</li>
 		</ul>
 	</div>

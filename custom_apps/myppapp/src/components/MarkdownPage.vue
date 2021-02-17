@@ -26,11 +26,8 @@ export default {
 	},
 	data() {
 		return {
-			stateValue: this.value
+			stateValue: this.value,
 		}
-	},
-	beforeUpdate() {
-		console.log('Update')
 	},
 	computed: {
 		content: {
@@ -66,11 +63,22 @@ export default {
 					}
 					// const className = props.language && `language-${props.language}`;
 					return '<span class="mermaid">' + src + '</span>'
-				}
+				},
 			}
 			marked.use({ renderer })
 			return marked(this.content)
 		},
+	},
+	beforeUpdate() {
+		console.log('Update')
+	},
+	mounted() {
+		console.log('mounted')
+		mermaid.contentLoaded()
+	},
+	updated() {
+		console.log('updated')
+		mermaid.contentLoaded()
 	},
 	methods: {
 		onClick(event) {
@@ -80,14 +88,6 @@ export default {
 			}
 		},
 	},
-	mounted() {
-		console.log('mounted')
-		mermaid.contentLoaded()
-	},
-	updated() {
-		console.log('updated')
-		mermaid.contentLoaded()
-	}
 }
 
 </script>

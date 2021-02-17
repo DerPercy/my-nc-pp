@@ -1,5 +1,5 @@
 <template>
-	<Content :class="{'icon-loading': loading}" app-name="myppapp" id="content">
+	<Content id="content" :class="{'icon-loading': loading}" app-name="myppapp">
 		<AppNavigation>
 			<template id="app-myppapp-navigation" #list>
 				<AppNavigationItem
@@ -13,7 +13,6 @@
 						title="TN erzeugen"
 						icon="icon-external"
 						@click="buildTN()" />
-
 				</AppNavigationItem>
 				<AppNavigationItem
 					key="toOrgMode"
@@ -32,7 +31,7 @@
 					icon="icon-folder"
 					@click="showCustomer(customer)">
 					<AppNavigationCounter slot="counter" :highlighted="false">
-						{{daysSinceLastChange(customer)}}
+						{{ daysSinceLastChange(customer) }}
 					</AppNavigationCounter>
 					<AppNavigationItem v-for="(project, pIndex) in customer.projects"
 						:key="pIndex"
