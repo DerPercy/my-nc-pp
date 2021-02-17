@@ -27,6 +27,8 @@ return [
     ['name' => 'api#dummy', 'url' => '/dummy', 'verb' => 'GET'],
 
     ['name' => 'orgMode#createTimesheet', 'url' => '/omts', 'verb' => 'POST'],
+		['name' => 'orgMode#getNodes', 'url' => '/om/nodes', 'verb' => 'GET'],
+		['name' => 'orgMode#getLogbook', 'url' => '/om/logbook', 'verb' => 'GET'],
 
   ]
 ];

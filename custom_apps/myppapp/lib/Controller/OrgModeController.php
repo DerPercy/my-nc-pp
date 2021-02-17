@@ -22,6 +22,37 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 		$this->userId = $UserId;
 		$this->rootFolder = $rootFolder;
 	}
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getNodes($file) {
+
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getLogbook($file) {
+		$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
+		$parser = new \My\OrgMode\Parser();
+		$rootNode = $parser->parseString($orgContent);
+
+		$query = new \My\OrgMode\Query();
+		$results = $query->logbookQuery($rootNode,[])->getResult();
+		$returnData = [];
+		foreach ($results as &$result) {
+			$resultSerialized = [
+				"title" => mb_convert_encoding($result->getNode()->getTitle(), 'UTF-8', 'UTF-8'),
+				"start" => ( $result->getStartDateObject()->getTimestamp() * 1000 ),
+				"end" => ( $result->getEndDateObject()->getTimestamp() * 1000 )
+			];
+			array_push($returnData,$resultSerialized);
+		}
+		return new DataResponse($returnData);
+	}
+
   /**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired

@@ -1,30 +1,39 @@
 <template>
 	<div>
 		<div>Hello OrgMode</div>
-		<span>Pfad: </span><input v-model="path" v-bind:style="{width: '270px'}" />
+		<span>Pfad: </span><input v-model="path" :style="{width: '270px'}">
 		<div>
-			Ort: <input v-model="ort" />
+			Ort: <input v-model="ort">
 		</div>
 		<div>
-			Monat: <input v-model="monat" />
+			Monat: <input v-model="monat">
 		</div>
 		<div>
-			Jahr: <input v-model="jahr" />
+			Jahr: <input v-model="jahr">
 		</div>
 		<div>
-			Export: <input v-model="exportpfad" v-bind:style="{width: '270px'}" />
+			Export: <input v-model="exportpfad" :style="{width: '270px'}">
 		</div>
 		<button @click="createTN">
 			TN erzeugen
 		</button>
+		<div>
+			Todoflags: <input v-model="todoflags" :style="{width: '270px'}">
+		</div>
+		<FullCalendar :options="calendarOptions" />
 	</div>
 </template>
 
 <script>
 
 import axios from '@nextcloud/axios'
+import FullCalendar from '@fullcalendar/vue'
+import timeGridPlugin from '@fullcalendar/timegrid'
 
 export default {
+	components: {
+		FullCalendar, // make the <FullCalendar> tag available
+	},
 	data() {
 		const jahr = new Date().getFullYear()
 		const monat = new Date().getMonth() + 1
@@ -32,8 +41,25 @@ export default {
 			path: '/myppapp/Timetracking.org',
 			ort: '',
 			exportpfad: '/myppapp/TTexport.csv',
+			todoflags: 'TODO,DONE',
 			jahr,
 			monat,
+			calendarOptions: {
+				plugins: [timeGridPlugin],
+				initialView: 'timeGridWeek',
+				timeZone: 'America/New_York',
+				events: this.fetchEvents,
+			},
+		}
+	},
+	watch: {
+		todoflags(value) {
+			localStorage.orgmode_todoflags = value
+		},
+	},
+	mounted() {
+		if (localStorage.orgmode_todoflags) {
+			this.todoflags = localStorage.orgmode_todoflags
 		}
 	},
 	methods: {
@@ -49,7 +75,29 @@ export default {
 				.then(response => {
 				})
 			// alert(this.path)
-		}
+		},
+		fetchEvents(info, success, failure) {
+			axios
+				.get('./om/logbook', {
+					params: {
+						file: this.path,
+					},
+				})
+				.then(response => {
+					const events = []
+					for (let i = 0; i < response.data.length; i++) {
+						const serverEvent = response.data[i]
+						events.push({
+							title: serverEvent.title,
+							start: new Date(serverEvent.start),
+							end: new Date(serverEvent.end),
+							id: serverEvent.start,
+						})
+					}
+					success(events)
+				// resolve(response.data)
+				})
+		},
 	},
 }
 </script>
