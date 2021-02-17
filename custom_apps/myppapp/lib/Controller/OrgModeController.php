@@ -7,6 +7,8 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\IRootFolder;
 
+use OCA\MyPPApp\Service\OrgModeService;
+
 
 require_once __DIR__."/../modules/OrgMode/Parser.php";
 require_once __DIR__."/../modules/OrgMode/Query.php";
@@ -71,19 +73,21 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 				array_push($csvLine,$result->getStartDate( "d.m.Y" )); // 1. Date
 				array_push($csvLine,$ort); // 2. Ort
 				try {
-					array_push($csvLine,strval($result->getNode()->getTitle()));
+					array_push($csvLine,strval($result->getNode()->getTitle())); // 3. Task
 				}catch(Exception $etwo){
 					array_push($csvLine,"???");
 				}
-				array_push($csvLine,$result->getStartDate( "H:i" ));
-				array_push($csvLine,$result->getEndDate( "H:i" ));
-				array_push($csvLine,$result->getUIPause( ));
-				array_push($csvLine,$result->getUIDuration( ));
-				array_push($csvLine,$result->getNode( )->getProperty("CUSTOMER",true));
-				array_push($csvLine,$result->getNode( )->getProperty("PROJECT",true));
+				array_push($csvLine,$result->getStartDate( "H:i" )); // 4. Start time
+				array_push($csvLine,$result->getEndDate( "H:i" )); // 5. End time
+				array_push($csvLine,$result->getUIPause( ));	// 6. pause
+				array_push($csvLine,$result->getUIDuration( )); // 7. duration
+				array_push($csvLine,$result->getNode( )->getProperty("CUSTOMER",true)); // 8. customer
+				array_push($csvLine,$result->getNode( )->getProperty("PROJECT",true)); // 9. project
 
 				array_push($csvData,$csvLine);
 			}
+
+			$csvData = OrgModeService::mergeTimesheet($csvData);
 
 			$file = $this->rootFolder->newFile($this->userId.'/files/'.$export);
 			$fp = $file->fopen("w");
