@@ -56,7 +56,7 @@ class OrgModeService {
 		return ($hours * 60) + $minutes;
 	}
 
-	static private function minutesToUI(int $time, $format = '%01d:%02d'):string {
+	static public function minutesToUI(int $time, $format = '%01d:%02d'):string {
     if ($time < 1) {
         return '00:00';
     }

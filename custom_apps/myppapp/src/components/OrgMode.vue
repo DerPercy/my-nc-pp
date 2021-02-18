@@ -91,6 +91,7 @@ export default {
 							title: serverEvent.title,
 							start: new Date(serverEvent.start),
 							end: new Date(serverEvent.end),
+							allDay: serverEvent.allDay,
 							id: serverEvent.start,
 						})
 					}
