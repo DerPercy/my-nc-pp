@@ -36,6 +36,52 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
+	public function getTasks($file) {
+		$tasks = [];
+
+		$tasks["path"] = $file;
+		$taskdata = [];
+		try {
+			$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
+			$parser = new \My\OrgMode\Parser();
+			$rootNode = $parser->parseString($orgContent);
+
+			$query = new \My\OrgMode\Query();
+			$results = $query->query($rootNode)->getResult();
+
+			foreach ($results as &$result) {
+				$task = [];
+				// >> Parse todo.txt
+				// Done
+				if($result->getTodoFlag() == null) {
+					continue;
+				}
+				if($result->getTodoFlag() == 'DONE'){
+					$task["done"] = true;
+				}else{
+					$task["done"] = false;
+				}
+				// Priority
+				$task["prio"] = $result->getPriority();
+
+				// << Parse todo.txt
+				$task["name"] = mb_convert_encoding($result->getTitle(), 'UTF-8', 'UTF-8');
+				$task["customer"] = mb_convert_encoding($result->getProperty("CUSTOMER",true), 'UTF-8', 'UTF-8');
+				$task["project"] = mb_convert_encoding($result->getProperty("PROJECT",true), 'UTF-8', 'UTF-8');
+
+
+				array_push($taskdata,$task);
+			}
+		} catch (\OCP\Files\NotFoundException $e) {
+		}
+		$tasks["tasks"] = $taskdata;
+		return $tasks;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
 	public function getLogbook($file) {
 		$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
 		$parser = new \My\OrgMode\Parser();

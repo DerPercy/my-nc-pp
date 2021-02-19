@@ -1,11 +1,11 @@
 <template>
-	<div>
-		<h2>Meine Aufgaben</h2>
+	<div class="myppapp-tasklist">
+		<h2>Meine Aufgaben {{ taskList.length }}</h2>
 		<ul>
-			<li v-for="(task, index) in tasks" :key="index" :class="task.classNames">
+			<li v-for="(task, index) in taskList" :key="index" :class="task.classNames">
 				<div>{{ task.name }}</div>
 				<div class="task-content-line-two">
-					{{ task.file }}
+					{{ task.customer }}: {{ task.project }}
 				</div>
 			</li>
 		</ul>
@@ -17,12 +17,18 @@
 export default {
 	components: {
 	},
+	props: {
+		tasks: {
+			type: Array,
+			required: true,
+		},
+	},
 	computed: {
-		tasks() {
+		taskList() {
 			// console.log(this.$store.state.task)
 			const taskList = []
-			for (let i = 0; i < this.$store.state.task.tasks.length; i++) {
-				const task = this.$store.state.task.tasks[i]
+			for (let i = 0; i < this.tasks.length; i++) {
+				const task = this.tasks[i]
 				task.classNames = 'task'
 				if (task.done === true) {
 					task.classNames += ' task-done'
@@ -58,6 +64,7 @@ export default {
 			taskList.sort(sorter)
 			return taskList
 		},
+		// other computed
 	},
 }
 

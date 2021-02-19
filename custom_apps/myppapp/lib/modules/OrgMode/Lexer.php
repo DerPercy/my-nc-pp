@@ -126,7 +126,7 @@ class LexerTokenHeader extends LexerToken {
   private $data = array();
   function __construct(string $raw, string $title, int $level, array $settings){
      parent::__construct($raw,LexerToken::TYPE_HEADER);
-		 if($settings["todoflags"]){
+		 if(array_key_exists("todoflags",$settings)){
 			 $this->todoFlags = $settings["todoflags"];
 		 }
 

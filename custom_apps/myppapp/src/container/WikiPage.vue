@@ -41,17 +41,17 @@ export default {
 	},
 	methods: {
 		navToWiki(sourceFile, href) {
-			console.log('Nav')
+			// console.log('Nav')
 			this.wikiPageEditedContent = null
 			this.fetchWikiPageData(this.wikipageData.url, href)
 		},
 		changeContent(newContent) {
-			console.log(newContent)
+			// console.log(newContent)
 			this.wikipageData.content = newContent
 			this.wikiPageEditedContent = newContent
 		},
 		saveWikiPage() {
-			console.log(this.wikipageData.content)
+			// console.log(this.wikipageData.content)
 			axios
 				.post('./wiki/page', {
 					wikipageUrl: this.wikipageData.url,

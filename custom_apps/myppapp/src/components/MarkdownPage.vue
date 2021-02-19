@@ -58,7 +58,7 @@ export default {
 					try {
 						mermaid.parse(src)
 					} catch (e) {
-						console.log(e.str)
+						// console.log(e.str)
 						return '<span>Error at parsing mermaid graph (see console)</span>'
 					}
 					// const className = props.language && `language-${props.language}`;
@@ -70,14 +70,14 @@ export default {
 		},
 	},
 	beforeUpdate() {
-		console.log('Update')
+		// console.log('Update')
 	},
 	mounted() {
-		console.log('mounted')
+		// console.log('mounted')
 		mermaid.contentLoaded()
 	},
 	updated() {
-		console.log('updated')
+		// console.log('updated')
 		mermaid.contentLoaded()
 	},
 	methods: {

@@ -3,18 +3,6 @@
 		<AppNavigation>
 			<template id="app-myppapp-navigation" #list>
 				<AppNavigationItem
-					key="timeTracking"
-					title="Zeiterfassung"
-					:allow-collapse="true"
-					icon="icon-user"
-					@click="showTimetracking()">
-					<AppNavigationItem
-						key="timeTrackingExport"
-						title="TN erzeugen"
-						icon="icon-external"
-						@click="buildTN()" />
-				</AppNavigationItem>
-				<AppNavigationItem
 					key="toOrgMode"
 					title="Org Mode"
 					icon="icon-external"
@@ -45,7 +33,6 @@
 				<TaskOverview v-if="contentType == 'tasks'" />
 				<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
 				<CustomerDashboard v-if="contentType == 'customer'" />
-				<TimeRecording v-if="contentType == 'timetracking'" />
 				<OrgMode v-if="contentType == 'orgmode'" />
 			</div>
 		</AppContent>
@@ -103,13 +90,12 @@ import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import TimeRecording from './components/TimeRecording.vue'
-import OrgMode from './components/OrgMode.vue'
 import AsideTimeRecording from './components/AsideTimeRecording.vue'
 
 import ProjectDashboard from './container/ProjectDashboard.vue'
 import CustomerDashboard from './container/CustomerDashboard.vue'
 import TaskOverview from './container/TaskOverview.vue'
+import OrgMode from './container/OrgMode.vue'
 
 import { store } from './store.js'
 import Moment from 'moment'
@@ -126,7 +112,6 @@ export default {
 		AppSidebarTab,
 		ActionButton,
 		ActionLink,
-		TimeRecording,
 		AsideTimeRecording,
 		ProjectDashboard,
 		CustomerDashboard,
@@ -182,12 +167,6 @@ export default {
 		},
 		showOrgMode() {
 			this.$store.dispatch('navtoOrgMode')
-		},
-		showTimetracking() {
-			this.$store.dispatch('navtoTimetracking')
-		},
-		buildTN() {
-			this.$store.dispatch('buildTN')
 		},
 		showTasks() {
 			this.$store.dispatch('navtoTasks')

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '@nextcloud/axios'
+import modOM from './OrgModeStore'
 
 Vue.use(Vuex)
 
@@ -33,13 +34,14 @@ const modTask = {
 					.get('./tasks', {
 						params: {
 							folderPath: path,
+							file: '/myppapp/Timetracking.org',
 						},
 					})
 					.then(response => {
 						commit('addTaskFile', response.data)
-						console.log('Tasks', response.data)
+						// console.log('Tasks', response.data)
 					})
-				console.log('Iterate', customer, project)
+				// console.log('Iterate', customer, project)
 			}
 			dispatch('project/projectIterator', fIterator, { root: true })
 		},
@@ -100,19 +102,19 @@ const store = new Vuex.Store({
 	modules: {
 		project: modProject,
 		task: modTask,
+		om: modOM,
 	},
 	state: {
 		asideType: '', // Currently open aside ('tr')
 		asideTRData: {},
 		timetracking: null,
-		contentType: 'timetracking',
+		contentType: 'orgmode',
 		contentProjectPath: 'dummy',
 		contentProjectData: null,
 	},
 	mutations: {
 		closeSideBar: state => { state.asideType = '' },
 		openTRSideBar: (state, timerecorddata) => { state.asideTRData = timerecorddata; state.asideType = 'tr' },
-		openTRContent: (state) => { state.contentType = 'timetracking' },
 		openTaskContent: (state) => { state.contentType = 'tasks' },
 		openOrgMode: (state) => { state.contentType = 'orgmode' },
 		openProjectDashboard: (state, data) => {
@@ -134,20 +136,10 @@ const store = new Vuex.Store({
 	actions: {
 		// Handle a HTTP-Response and display messages etc
 		handleHTTPResponse(context, response) {
-			console.log('HTTP-Response', response.data)
+		// console.log('HTTP-Response', response.data)
 		},
 		handleHTTPResponseError(context, response) {
-			console.log('HTTP-Response-Error', response.data)
-		},
-		navtoTimetracking(context) {
-			context.commit('openTRContent')
-		},
-		buildTN(context) {
-			axios
-				.get('./timesheet')
-				.then(response => {
-					// context.commit('openProjectDashboard', response.data)
-				})
+		// console.log('HTTP-Response-Error', response.data)
 		},
 		navtoOrgMode(context) {
 			context.commit('openOrgMode')

@@ -63,12 +63,18 @@ class Node {
   }
 
   public function getTodoFlag(){
+		if(!array_key_exists("todoflag",$this->data)){
+			return null;
+		}
     return $this->data["todoflag"];
   }
   public function getTags() {
     return $this->data["tags"];
   }
   public function getPriority() {
+		if(!array_key_exists("prio",$this->data)){
+			return null;
+		}
     return $this->data["prio"];
   }
 }

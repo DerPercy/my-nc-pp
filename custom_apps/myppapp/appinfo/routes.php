@@ -13,7 +13,6 @@ return [
   ],
   'routes' => [
     ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'customer#timetracking', 'url' => '/timetracking', 'verb' => 'GET'],
 		['name' => 'customer#timesheet', 'url' => '/timesheet', 'verb' => 'GET'],
 		['name' => 'customer#projectDetails', 'url' => '/project', 'verb' => 'GET'],
 		['name' => 'customer#wikipageDetails', 'url' => '/wikipage', 'verb' => 'GET'],
@@ -21,6 +20,7 @@ return [
 		['name' => 'wiki#wikipageDetails', 'url' => '/wiki/page', 'verb' => 'GET'],
 		['name' => 'wiki#updateWikipage', 'url' => '/wiki/page', 'verb' => 'POST'],
 
+		['name' => 'orgMode#getTasks', 'url' => '/om/tasks', 'verb' => 'GET'],
 		['name' => 'task#taskList', 'url' => '/tasks', 'verb' => 'GET'],
 
 		['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],

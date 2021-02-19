@@ -4,7 +4,7 @@ module.exports = {
 		'@nextcloud'
 	],
 	rules: {
-    "no-console": "off",
+    "no-console": "warn",
   },
 	overrides: [{
   	files: ["*MarkdownPage.vue"],

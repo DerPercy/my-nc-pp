@@ -21,6 +21,7 @@
 			Todoflags: <input v-model="todoflags" :style="{width: '270px'}">
 		</div>
 		<FullCalendar :options="calendarOptions" />
+		<TaskList :tasks="this.$store.state.om.tasks" />
 	</div>
 </template>
 
@@ -29,16 +30,18 @@
 import axios from '@nextcloud/axios'
 import FullCalendar from '@fullcalendar/vue'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import TaskList from '../components/TaskList'
 
 export default {
 	components: {
 		FullCalendar, // make the <FullCalendar> tag available
+		TaskList,
 	},
 	data() {
 		const jahr = new Date().getFullYear()
 		const monat = new Date().getMonth() + 1
 		return {
-			path: '/myppapp/Timetracking.org',
+			path: this.$store.state.om.settingsFilePath,
 			ort: '',
 			exportpfad: '/myppapp/TTexport.csv',
 			todoflags: 'TODO,DONE',
@@ -53,6 +56,9 @@ export default {
 		}
 	},
 	watch: {
+		path(value) {
+			this.$store.dispatch('om/setPath', value)
+		},
 		todoflags(value) {
 			localStorage.orgmode_todoflags = value
 		},
@@ -61,6 +67,9 @@ export default {
 		if (localStorage.orgmode_todoflags) {
 			this.todoflags = localStorage.orgmode_todoflags
 		}
+		this.$store.dispatch('om/getTasks').then((tasks) => {
+			// console.log('Frontend', tasks)
+		})
 	},
 	methods: {
 		createTN() {
