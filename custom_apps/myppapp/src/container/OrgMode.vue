@@ -21,7 +21,7 @@
 			Todoflags: <input v-model="todoflags" :style="{width: '270px'}">
 		</div>
 		<FullCalendar :options="calendarOptions" />
-		<TaskList :tasks="this.$store.state.om.tasks" />
+		<TaskList :tasks="tasks" />
 	</div>
 </template>
 
@@ -53,7 +53,13 @@ export default {
 				timeZone: 'America/New_York',
 				events: this.fetchEvents,
 			},
+			tasks: [],
 		}
+	},
+	computed: {
+		/* tasks() {
+			return this.$store.dispatch('om/getTasks')
+		}, */
 	},
 	watch: {
 		path(value) {
@@ -68,6 +74,7 @@ export default {
 			this.todoflags = localStorage.orgmode_todoflags
 		}
 		this.$store.dispatch('om/getTasks').then((tasks) => {
+			this.tasks = tasks
 			// console.log('Frontend', tasks)
 		})
 	},

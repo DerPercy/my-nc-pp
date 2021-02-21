@@ -21,6 +21,8 @@ return [
 		['name' => 'wiki#updateWikipage', 'url' => '/wiki/page', 'verb' => 'POST'],
 
 		['name' => 'orgMode#getTasks', 'url' => '/om/tasks', 'verb' => 'GET'],
+		['name' => 'orgMode#getDetails', 'url' => '/om/details', 'verb' => 'GET'],
+		['name' => 'orgMode#getHash', 'url' => '/om/hash', 'verb' => 'GET'],
 		['name' => 'task#taskList', 'url' => '/tasks', 'verb' => 'GET'],
 
 		['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],

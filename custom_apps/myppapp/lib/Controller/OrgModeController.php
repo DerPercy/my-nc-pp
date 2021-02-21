@@ -24,12 +24,66 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 		$this->userId = $UserId;
 		$this->rootFolder = $rootFolder;
 	}
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getNodes($file) {
+	public function getHash($file) {
+		$response = [];
+		try {
+			$file = $this->rootFolder->get($this->userId.'/files/'.$file);
+			$response["hash"] = $file->hash("MD5");
+		} catch (\OCP\Files\NotFoundException $e) {
+		}
+		return $response;
+	}
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getDetails($file) {
+		$response = [];
+		$response["nodes"] = [];
+		try {
+			$file = $this->rootFolder->get($this->userId.'/files/'.$file);
+			$orgContent = $file->getContent();
+			$response["hash"] = $file->hash("MD5"); // To check if file changed
 
+			$parser = new \My\OrgMode\Parser();
+			$rootNode = $parser->parseString($orgContent);
+
+			$query = new \My\OrgMode\Query();
+			$results = $query->query($rootNode)->getResult();
+
+			foreach ($results as &$result) {
+				$node = [];
+				// >> Parse todo.txt
+				// Done
+				if($result->getTodoFlag() == null) {
+					$node["isTodo"] = false;
+				} else {
+					$node["isTodo"] = true;
+				}
+				if($result->getTodoFlag() == 'DONE'){
+					$node["done"] = true;
+				}else{
+					$node["done"] = false;
+				}
+				// Priority
+				$node["prio"] = $result->getPriority();
+
+				$node["name"] = mb_convert_encoding($result->getTitle(), 'UTF-8', 'UTF-8');
+				$node["customer"] = mb_convert_encoding($result->getProperty("CUSTOMER",true), 'UTF-8', 'UTF-8');
+				$node["project"] = mb_convert_encoding($result->getProperty("PROJECT",true), 'UTF-8', 'UTF-8');
+
+
+				array_push($response["nodes"],$node);
+			}
+
+		} catch (\OCP\Files\NotFoundException $e) {
+		}
+		return $response;
 	}
 
 	/**
