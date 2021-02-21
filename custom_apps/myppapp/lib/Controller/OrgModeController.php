@@ -81,6 +81,11 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 				array_push($response["nodes"],$node);
 			}
 
+			// ProjectTree
+			$pTree = $query->propertyTree($rootNode,["CUSTOMER","PROJECT"]);
+			$response["ptree"] = $pTree->serialize();
+
+
 		} catch (\OCP\Files\NotFoundException $e) {
 		}
 		return $response;

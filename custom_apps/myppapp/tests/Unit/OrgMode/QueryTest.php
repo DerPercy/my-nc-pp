@@ -19,7 +19,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
 
 	public function testQuery() {
 		$results = $this->query->Query($this->rootNode)->getResult();
-		$this->assertEquals(6, count($results), "Wrong results");
+		$this->assertEquals(13, count($results), "Wrong results");
 
 	}
   public function testLogbookQuery() {
@@ -40,6 +40,19 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals("Task 1", $results[1]->getNode()->getTitle(), "Wrong assigned testDateSort[1]");
 		$this->assertEquals("Task 2", $results[2]->getNode()->getTitle(), "Wrong assigned testDateSort[2]");
 		$this->assertEquals("Task 1", $results[3]->getNode()->getTitle(), "Wrong assigned testDateSort[3]");
+
+	}
+
+	public function testPropertyTree() {
+		// Build a property tree
+		$proptree = $this->query->propertyTree($this->rootNode,["ptcustomer","ptproject","pttask","ptdeveloper"]);
+		$child1 = $proptree->children()[0];
+		$this->assertEquals("ptcustomer", $child1->getPropName(), "Wrong PropName at Level 1");
+		$this->assertEquals("Customer A", $child1->getPropValue(), "Wrong PropValue at Level 1");
+
+		$child2 = $child1->children()[0];
+		$this->assertEquals("ptproject", $child2->getPropName(), "Wrong PropName at Level 2");
+		$this->assertEquals("Project 1", $child2->getPropValue(), "Wrong PropValue at Level 2");
 
 	}
 

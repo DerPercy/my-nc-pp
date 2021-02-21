@@ -39,3 +39,31 @@
 	 	:LOGBOOK:
 			CLOCK: [2020-02-03 Mi 07:59]--[2020-02-03 Mi 17:00] =>  2:00
 		:END:
+
+* PropertyTree
+** Projects
+*** Project 1 - The first one
+:PROPERTIES:
+:ptcustomer: Customer A
+:ptproject: Project 1
+:END:
+
+**** Setup
+:PROPERTIES:
+:pttask: Setup
+:END:
+
+***** Setup done
+:PROPERTIES:
+:ptdeveloper: John Doe
+:END:
+
+**** Documentation
+:PROPERTIES:
+:pttask: Doc
+:END:
+
+***** Intro written
+:PROPERTIES:
+:ptdeveloper: Jane Doe
+:END:
