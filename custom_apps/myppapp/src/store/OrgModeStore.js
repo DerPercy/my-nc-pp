@@ -51,16 +51,13 @@ const modOrgMode = {
 					// commit('SET_TASKS', tasks)
 					resolve(tasks)
 				})
-				/* axios
-					.get('./om/tasks', {
-						params: {
-							file: state.settingsFilePath,
-						},
-					})
-					.then(response => {
-						commit('SET_TASKS', response.data.tasks)
-						resolve(response.data.tasks)
-					}) */
+			})
+		},
+		async getProjectTree({ commit, dispatch }) {
+			return new Promise(function(resolve, reject) {
+				dispatch('getFileData').then((fileData) => {
+					resolve(fileData.ptree)
+				})
 			})
 		},
 		// other actions

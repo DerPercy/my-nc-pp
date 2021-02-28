@@ -1,6 +1,7 @@
 <template>
 	<div class="myppapp-tasklist">
 		<h2>Meine Aufgaben {{ taskList.length }}</h2>
+		<ProjectSelector v-if="projectTree" :proj-tree="projectTree" />
 		<ul>
 			<li v-for="(task, index) in taskList" :key="index" :class="task.classNames">
 				<div>{{ task.name }}</div>
@@ -14,14 +15,26 @@
 
 <script>
 
+import ProjectSelector from '../components/ProjectSelector'
+
 export default {
 	components: {
+		ProjectSelector,
 	},
 	props: {
 		tasks: {
 			type: Array,
 			required: true,
 		},
+		projTree: {
+			type: Object,
+			required: true,
+		},
+	},
+	data() {
+		return {
+			projectTree: this.projTree,
+		}
 	},
 	computed: {
 		taskList() {

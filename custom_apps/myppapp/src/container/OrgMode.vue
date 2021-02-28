@@ -21,7 +21,7 @@
 			Todoflags: <input v-model="todoflags" :style="{width: '270px'}">
 		</div>
 		<FullCalendar :options="calendarOptions" />
-		<TaskList :tasks="tasks" />
+		<TaskList v-if="tasksLoaded" :tasks="tasks" :proj-tree="projectTree" />
 	</div>
 </template>
 
@@ -53,10 +53,17 @@ export default {
 				timeZone: 'America/New_York',
 				events: this.fetchEvents,
 			},
-			tasks: [],
+			tasks: null,
+			projectTree: null,
 		}
 	},
 	computed: {
+		tasksLoaded() {
+			if (this.tasks && this.projectTree) {
+				return true
+			}
+			return false
+		},
 		/* tasks() {
 			return this.$store.dispatch('om/getTasks')
 		}, */
@@ -75,7 +82,11 @@ export default {
 		}
 		this.$store.dispatch('om/getTasks').then((tasks) => {
 			this.tasks = tasks
-			// console.log('Frontend', tasks)
+			// console.log('Tasks', tasks)
+		})
+		this.$store.dispatch('om/getProjectTree').then((ptree) => {
+			this.projectTree = ptree
+			// console.log('PTree', ptree)
 		})
 	},
 	methods: {
