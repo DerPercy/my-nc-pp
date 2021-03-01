@@ -104,27 +104,20 @@ export default {
 			// alert(this.path)
 		},
 		fetchEvents(info, success, failure) {
-			axios
-				.get('./om/logbook', {
-					params: {
-						file: this.path,
-					},
-				})
-				.then(response => {
-					const events = []
-					for (let i = 0; i < response.data.length; i++) {
-						const serverEvent = response.data[i]
-						events.push({
-							title: serverEvent.title,
-							start: new Date(serverEvent.start),
-							end: new Date(serverEvent.end),
-							allDay: serverEvent.allDay,
-							id: serverEvent.start,
-						})
-					}
-					success(events)
-				// resolve(response.data)
-				})
+			this.$store.dispatch('om/getLogbook').then((logbook) => {
+				const events = []
+				for (let i = 0; i < logbook.length; i++) {
+					const serverEvent = logbook[i]
+					events.push({
+						title: serverEvent.title,
+						start: new Date(serverEvent.start),
+						end: new Date(serverEvent.end),
+						allDay: serverEvent.allDay,
+						id: serverEvent.start,
+					})
+				}
+				success(events)
+			})
 		},
 	},
 }

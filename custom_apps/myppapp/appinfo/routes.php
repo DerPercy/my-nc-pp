@@ -20,17 +20,17 @@ return [
 		['name' => 'wiki#wikipageDetails', 'url' => '/wiki/page', 'verb' => 'GET'],
 		['name' => 'wiki#updateWikipage', 'url' => '/wiki/page', 'verb' => 'POST'],
 
-		['name' => 'orgMode#getTasks', 'url' => '/om/tasks', 'verb' => 'GET'],
+		// ['name' => 'orgMode#getTasks', 'url' => '/om/tasks', 'verb' => 'GET'],
 		['name' => 'orgMode#getDetails', 'url' => '/om/details', 'verb' => 'GET'],
 		['name' => 'orgMode#getHash', 'url' => '/om/hash', 'verb' => 'GET'],
-		['name' => 'task#taskList', 'url' => '/tasks', 'verb' => 'GET'],
+		// ['name' => 'task#taskList', 'url' => '/tasks', 'verb' => 'GET'],
 
 		['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
     ['name' => 'api#dummy', 'url' => '/dummy', 'verb' => 'GET'],
 
     ['name' => 'orgMode#createTimesheet', 'url' => '/omts', 'verb' => 'POST'],
 		['name' => 'orgMode#getNodes', 'url' => '/om/nodes', 'verb' => 'GET'],
-		['name' => 'orgMode#getLogbook', 'url' => '/om/logbook', 'verb' => 'GET'],
+		// ['name' => 'orgMode#getLogbook', 'url' => '/om/logbook', 'verb' => 'GET'],
 
   ]
 ];

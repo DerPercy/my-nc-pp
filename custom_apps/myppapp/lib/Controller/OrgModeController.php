@@ -85,16 +85,51 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 			$pTree = $query->propertyTree($rootNode,["CUSTOMER","PROJECT"]);
 			$response["ptree"] = $pTree->serialize();
 
+			// >> Logbook
+
+			$results = $query->logbookQuery($rootNode,[])->getResult();
+			$returnData = [];
+			$dayEvents = [];
+			foreach ($results as &$result) {
+				$resultSerialized = [
+					"title" => mb_convert_encoding($result->getNode()->getTitle(), 'UTF-8', 'UTF-8'),
+					"start" => ( $result->getStartDateObject()->getTimestamp() * 1000 ),
+					"end" => ( $result->getEndDateObject()->getTimestamp() * 1000 )
+				];
+				$dayEventKey = $result->getStartDate("Ymd");
+				$durationInMin = $result->getDuration();
+				if(array_key_exists($dayEventKey, $dayEvents)){
+					$dayEvents[$dayEventKey]["duration"] += $durationInMin;
+				}else {
+					$dayEvents[$dayEventKey] = [
+						"duration" => $durationInMin,
+						"start" => ( $result->getStartDateObject()->getTimestamp() * 1000 ),
+						"end" => ( $result->getEndDateObject()->getTimestamp() * 1000 )
+					];
+				}
+				array_push($returnData,$resultSerialized);
+			}
+			foreach ($dayEvents as $key => $dayEvent){
+				$dayEventSerialized = [
+					"title" => OrgModeService::minutesToUI($dayEvent["duration"]),
+					"start" => $dayEvent["start"],
+					"end" => $dayEvent["end"],
+					"allDay" => True
+				];
+				array_push($returnData,$dayEventSerialized);
+			}
+			$response["logbook"] = $returnData;
+			// << Logbook
 
 		} catch (\OCP\Files\NotFoundException $e) {
 		}
 		return $response;
 	}
 
-	/**
+	/* *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 */
+	 * /
 	public function getTasks($file) {
 		$tasks = [];
 
@@ -135,12 +170,12 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 		}
 		$tasks["tasks"] = $taskdata;
 		return $tasks;
-	}
+	} */
 
-	/**
+	/* *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 */
+	 * /
 	public function getLogbook($file) {
 		$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
 		$parser = new \My\OrgMode\Parser();
@@ -179,7 +214,7 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 			array_push($returnData,$dayEventSerialized);
 		}
 		return new DataResponse($returnData);
-	}
+	}*/
 
   /**
 	 * @NoAdminRequired
