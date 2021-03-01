@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<select v-model="custSelected">
+		<select class="projectselector-custselect" v-model="custSelected">
 			<option disabled value="">
 				Customer
 			</option>
@@ -9,7 +9,7 @@
 			</option>
 		</select>
 		<span v-if="custSelected">
-			<select>
+			<select  class="projectselector-projselect">
 				<option disabled value="">
 					Project
 				</option>

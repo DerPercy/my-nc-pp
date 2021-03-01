@@ -8,8 +8,8 @@
 
 <script>
 
-import marked from 'marked'
-import mermaid from 'mermaid'
+// import marked from 'marked'
+// import mermaid from 'mermaid'
 
 export default {
 	components: {
@@ -40,7 +40,7 @@ export default {
 			},
 		},
 		htmlCode() {
-			const renderer = {
+			/* const renderer = {
 				link(href, title, text) {
 					if (href.match(/^(https?:)?\/\//)) {
 						return '<a href="' + href + '"target="_blank">' + text + '<sup>☁</sup></a>'
@@ -56,7 +56,7 @@ export default {
 						return '<pre><code class="' + tokens + ' language-' + tokens + '">' + src + '</code></pre>'
 					}
 					try {
-						mermaid.parse(src)
+						// mermaid.parse(src)
 					} catch (e) {
 						// console.log(e.str)
 						return '<span>Error at parsing mermaid graph (see console)</span>'
@@ -64,9 +64,9 @@ export default {
 					// const className = props.language && `language-${props.language}`;
 					return '<span class="mermaid">' + src + '</span>'
 				},
-			}
-			marked.use({ renderer })
-			return marked(this.content)
+			} */
+			// marked.use({ renderer })
+			return this.content // marked(this.content)
 		},
 	},
 	beforeUpdate() {
@@ -74,11 +74,11 @@ export default {
 	},
 	mounted() {
 		// console.log('mounted')
-		mermaid.contentLoaded()
+		// mermaid.contentLoaded()
 	},
 	updated() {
 		// console.log('updated')
-		mermaid.contentLoaded()
+		// mermaid.contentLoaded()
 	},
 	methods: {
 		onClick(event) {

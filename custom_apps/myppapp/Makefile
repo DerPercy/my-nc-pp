@@ -12,6 +12,9 @@ npm-init:
 build-js:
 	npm run dev
 
+test-js:
+	npm run test:jest
+
 # This file is licensed under the Affero General Public License version 3 or
 # later. See the COPYING file.
 # @author Bernhard Posselt <dev@bernhard-posselt.com>
