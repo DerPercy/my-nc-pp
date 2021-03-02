@@ -14,6 +14,11 @@ sudo docker-compose up -d
 make build-js
 ```
 
+## Test Vue app
+```
+make test-js
+```
+
 ## Run PHPUnit
 ```
 sudo docker-compose run phpunit ./phpunit /app/custom_apps/myppapp/tests --color=auto

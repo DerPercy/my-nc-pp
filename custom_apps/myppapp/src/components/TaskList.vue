@@ -1,7 +1,7 @@
 <template>
 	<div class="myppapp-tasklist">
 		<h2>Meine Aufgaben {{ taskList.length }}</h2>
-		<ProjectSelector v-if="projectTree" :proj-tree="projectTree" />
+		<ProjectSelector v-if="projectTree" :proj-tree="projectTree" @change="onSelectProject" />
 		<ul>
 			<li v-for="(task, index) in taskList" :key="index" :class="task.classNames">
 				<div>{{ task.name }}</div>
@@ -78,6 +78,12 @@ export default {
 			return taskList
 		},
 		// other computed
+	},
+	methods: {
+		onSelectProject(data) {
+			alert('select project')
+		},
+		// other methods
 	},
 }
 

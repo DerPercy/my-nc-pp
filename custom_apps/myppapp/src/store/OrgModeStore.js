@@ -1,4 +1,7 @@
-import axios from '@nextcloud/axios'
+// import axios from '@nextcloud/axios'
+// import axios from './axios'
+import ax from './axios'
+const axios = ax.getAxios()
 
 const modOrgMode = {
 	namespaced: true,

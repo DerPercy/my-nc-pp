@@ -10,7 +10,11 @@ npm-init:
 	npm ci
 
 build-js:
-	npm run dev
+	npm run test:jest
+	npm run build
+
+build-dev-js:
+		npm run dev
 
 test-js:
 	npm run test:jest

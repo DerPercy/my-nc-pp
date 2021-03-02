@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development webpack --progress --config webpack.js",
+    "build": "NODE_ENV=production webpack --progress --config webpack.js",
     "test": "mocha tests/vue --require '@babel/register'",
     "test:jest": "jest"
   },
@@ -54,6 +55,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "mocha": "^8.3.0",
     "node-sass": "^4.14.1",
+    "regenerator-runtime": "^0.13.7",
     "sass-loader": "^8.0.2",
     "stylelint": "^13.6.1",
     "stylelint-config-recommended-scss": "^4.2.0",

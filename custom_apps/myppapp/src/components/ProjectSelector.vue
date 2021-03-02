@@ -1,19 +1,19 @@
 <template>
 	<div>
-		<select class="projectselector-custselect" v-model="custSelected">
-			<option disabled value="">
+		<select v-model="custSelected" class="projectselector-custselect">
+			<option value="">
 				Customer
 			</option>
-			<option v-for="(customer, index) in customerList" :key="index" :value="index">
+			<option v-for="(customer, index) in customerList" :key="index" :value="customer">
 				{{ customer.value }}
 			</option>
 		</select>
 		<span v-if="custSelected">
-			<select  class="projectselector-projselect">
-				<option disabled value="">
+			<select v-model="projSelected" class="projectselector-projselect">
+				<option value="">
 					Project
 				</option>
-				<option v-for="(project, index) in projectList" :key="index" :value="index">
+				<option v-for="(project, index) in projectList" :key="index" :value="project">
 					{{ project.value }}
 				</option>
 			</select>
@@ -35,6 +35,7 @@ export default {
 	data() {
 		return {
 			custSelected: null,
+			projSelected: null,
 		}
 	},
 	computed: {
@@ -45,16 +46,21 @@ export default {
 			return this.projTree.children
 		},
 		projectList() {
-			if (!this.custSelected) {
+			if (!this.custSelected && this.custSelected !== 0) {
 				return []
 			}
-			return this.projTree.children[this.custSelected].children
+			// return this.projTree.children[this.custSelected].children
+			return this.custSelected.children
 		},
 
 	},
 	watch: {
 		custSelected(value) {
 			// console.log(value)
+			// this.$emit('change', {})
+		},
+		projSelected(value) {
+			this.$emit('change', { customer: this.custSelected, project: value })
 		},
 	},
 }

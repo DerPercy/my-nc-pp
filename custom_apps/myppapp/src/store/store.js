@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from '@nextcloud/axios'
+// import axios from '@nextcloud/axios'
+// import axios from './axios'
+
 import modOM from './OrgModeStore'
+
+import ax from './axios'
+const axios = ax.getAxios()
 
 Vue.use(Vuex)
 

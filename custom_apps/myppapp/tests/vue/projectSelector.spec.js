@@ -24,10 +24,16 @@ describe('ProjectSelector', () => {
 
 		optList.at(1).setSelected().then(() => {
 			expect(wrapper.find(".projectselector-projselect").exists()).toBe(true)
-			const optList = wrapper.findAll('select.projectselector-projselect option')
-			expect(optList.length).toBe(7)
+			const pOptList = wrapper.findAll('select.projectselector-projselect option')
+			expect(pOptList.length).toBe(7)
 
-			done()
+			pOptList.at(2).setSelected().then(() => {
+				expect(wrapper.emitted().change).toBeTruthy();
+				expect(wrapper.emitted().change[0][0].project.value).toBe("Project 1-2");
+				expect(wrapper.emitted().change[0][0].customer.value).toBe("Cust1");
+				done()
+			})
+
 		})
    })
 })
