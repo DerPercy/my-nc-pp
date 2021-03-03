@@ -1,0 +1,23 @@
+{
+	"hash": "a",
+	"nodes": [{
+		"isTodo": true,
+		"done": false,
+		"prio": null,
+		"name": "Testtask",
+		"customer": "",
+		"project": ""
+	},{
+		"isTodo": false,
+		"done": false,
+		"prio": null,
+		"name": "Test",
+		"customer": "",
+		"project": ""
+	}],
+	"ptree": {
+		"name": "",
+		"value": "",
+		"children": []
+	}
+}

@@ -5,7 +5,7 @@
 
 function getAxios() {
 	const axios = require('@nextcloud/axios')
-	return axios
+	return axios.default
 }
 
 const exportFunctions = {
