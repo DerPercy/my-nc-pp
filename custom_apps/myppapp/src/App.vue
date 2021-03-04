@@ -6,7 +6,13 @@
 					key="toOrgMode"
 					title="Org Mode"
 					icon="icon-external"
-					@click="showOrgMode()" />
+					@click="showOrgMode()">
+					<AppNavigationItem
+						key="toOrgModeCalendar"
+						title="Org Mode Calendar"
+						icon="icon-calendar-dark"
+						@click="setContentType('orgmode-calendar')" />
+				</AppNavigationItem>
 				<AppNavigationItem
 					key="tasks"
 					title="Aufgaben"
@@ -34,6 +40,7 @@
 				<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
 				<CustomerDashboard v-if="contentType == 'customer'" />
 				<OrgMode v-if="contentType == 'orgmode'" />
+				<OrgModeCalendar v-if="contentType == 'orgmode-calendar'" />
 			</div>
 		</AppContent>
 		<AsideTimeRecording v-show="asideType == 'tr'" />
@@ -96,6 +103,7 @@ import ProjectDashboard from './container/ProjectDashboard.vue'
 import CustomerDashboard from './container/CustomerDashboard.vue'
 import TaskOverview from './container/TaskOverview.vue'
 import OrgMode from './container/OrgMode.vue'
+import OrgModeCalendar from './container/OrgModeCalendar.vue'
 
 import { store } from './store.js'
 import Moment from 'moment'
@@ -117,6 +125,7 @@ export default {
 		CustomerDashboard,
 		TaskOverview,
 		OrgMode,
+		OrgModeCalendar,
 	},
 	data() {
 		return {
@@ -167,6 +176,9 @@ export default {
 		},
 		showOrgMode() {
 			this.$store.dispatch('navtoOrgMode')
+		},
+		setContentType(ct) {
+			this.$store.dispatch('setContentType', ct)
 		},
 		showTasks() {
 			this.$store.dispatch('navtoTasks')

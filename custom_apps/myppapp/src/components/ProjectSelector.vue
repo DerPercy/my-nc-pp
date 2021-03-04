@@ -58,6 +58,7 @@ export default {
 		custSelected(value) {
 			// console.log(value)
 			// this.$emit('change', {})
+			this.$emit('change', { customer: value, project: null })
 		},
 		projSelected(value) {
 			this.$emit('change', { customer: this.custSelected, project: value })

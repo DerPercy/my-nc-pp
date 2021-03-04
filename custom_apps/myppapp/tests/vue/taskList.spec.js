@@ -42,18 +42,29 @@ describe("TaskList", () => {
 		let tasks = await store.dispatch("om/getTasks");
 		let projTree = await store.dispatch("om/getProjectTree");
 
-		expect(tasks.length).toBe(1);
+		expect(tasks.length).toBe(4);
 
-		const wrapper = mount(TaskList, {
+		const wrapper = await mount(TaskList, {
 			propsData: {
 				tasks,
 				projTree
 			}
 		});
-		const pTaskList = wrapper.findAll('li.task')
-		expect(pTaskList.length).toBe(1)
+		let pTaskList = wrapper.findAll('li.task')
+		expect(pTaskList.length).toBe(4)
 
 		// Next: Filter by customer/project
+		const custList = wrapper.findAll('select.projectselector-custselect option')
+		await custList.at(1).setSelected();
+
+		pTaskList = wrapper.findAll('li.task')
+		expect(pTaskList.length).toBe(3) // filter by customer
+
+		const projList = wrapper.findAll('select.projectselector-projselect option')
+		await projList.at(1).setSelected();
+
+		pTaskList = wrapper.findAll('li.task')
+		expect(pTaskList.length).toBe(2) // filter by project
 
   });
 });

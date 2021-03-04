@@ -34,10 +34,13 @@ export default {
 	data() {
 		return {
 			projectTree: this.projTree,
+			taskList: [],
+			taskListMax: [],
+			filter: {},
 		}
 	},
 	computed: {
-		taskList() {
+		taskListOld() {
 			// console.log(this.$store.state.task)
 			const taskList = []
 			for (let i = 0; i < this.tasks.length; i++) {
@@ -79,9 +82,69 @@ export default {
 		},
 		// other computed
 	},
+	mounted() {
+		const taskList = []
+		for (let i = 0; i < this.tasks.length; i++) {
+			const task = this.tasks[i]
+			task.classNames = 'task'
+			if (task.done === true) {
+				task.classNames += ' task-done'
+			}
+			if (task.prio) {
+				task.classNames += ' task-prio-' + task.prio
+			}
+			taskList.push(task)
+		}
+
+		const sorter = function(a, b) {
+			// Done
+			if (a.done !== b.done) {
+				return a.done ? 1 : -1
+			}
+			// Prio
+			if (a.prio !== b.prio) {
+				if (!a.prio) {
+					return 1
+				}
+				if (!a.prio) {
+					return -1
+				}
+				if (a.prio > b.prio) {
+					return 1
+				} else {
+					return -1
+				}
+			}
+
+			return 0
+		}
+		taskList.sort(sorter)
+		this.taskListMax = taskList
+		this.triggerFilter()
+	},
 	methods: {
 		onSelectProject(data) {
-			alert('select project')
+			this.filter.customer = data.customer
+			this.filter.project = data.project
+			this.triggerFilter()
+		},
+		triggerFilter() {
+			const taskList = []
+			for (let i = 0; i < this.taskListMax.length; i++) {
+				const task = this.taskListMax[i]
+				if (this.filter.customer) {
+					if (task.customer !== this.filter.customer.value) {
+						continue
+					}
+				}
+				if (this.filter.project) {
+					if (task.project !== this.filter.project.value) {
+						continue
+					}
+				}
+				taskList.push(task)
+			}
+			this.taskList = taskList
 		},
 		// other methods
 	},
