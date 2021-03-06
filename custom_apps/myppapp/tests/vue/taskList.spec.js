@@ -38,20 +38,32 @@ beforeEach(() => {
 });
 
 describe("TaskList", () => {
+	it("get the correct todoflags", async () => {
+		let todoFlags = await store.dispatch("om/getTodoFlagIDs");
+		expect(todoFlags.length).toBe(5);
+		expect(todoFlags[0]).toBe("TODO");
+
+	})
 	it("works", async () => {
 		let tasks = await store.dispatch("om/getTasks");
 		let projTree = await store.dispatch("om/getProjectTree");
+		let todoFlags = await store.dispatch("om/getSettingsTodoFlags");
 
 		expect(tasks.length).toBe(4);
 
 		const wrapper = await mount(TaskList, {
 			propsData: {
 				tasks,
-				projTree
+				projTree,
+				todoFlagSettings: todoFlags,
 			}
 		});
 		let pTaskList = wrapper.findAll('li.task')
 		expect(pTaskList.length).toBe(4)
+
+		// Corrent done-flags
+		pTaskList = wrapper.findAll('li.task-done')
+		expect(pTaskList.length).toBe(2)
 
 		// Next: Filter by customer/project
 		const custList = wrapper.findAll('select.projectselector-custselect option')

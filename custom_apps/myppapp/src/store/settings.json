@@ -1,0 +1,29 @@
+{
+	"todo": {
+		"flags": {
+			"TODO": {
+				"style": {
+					"background-color": "red"
+				}
+			},
+			"DONE": {
+				"style": {
+					"background-color": "green"
+				}
+			},
+			"WAIT": {
+				"style": {
+					"background-color": "#FF8800"
+				}
+			},
+			"INTEST": {
+				"style": {
+					"background-color": "yellow"
+				}
+			},
+			"CANCELED": {
+				"done": true
+			}
+		}
+	}
+}

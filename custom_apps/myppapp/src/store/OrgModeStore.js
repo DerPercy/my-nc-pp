@@ -7,6 +7,7 @@ const modOrgMode = {
 	namespaced: true,
 	state: {
 		settingsFilePath: localStorage.orgmode_filePath || '/myppapp/Timetracking.org',
+		settingsTodoFlags: localStorage.orgmode_todoflags || 'TODO,DONE,WAIT,INTEST,CANCELED',
 		// tasks: [],
 		fileData: {},
 	},
@@ -19,16 +20,46 @@ const modOrgMode = {
 			state.settingsFilePath = newValue
 			localStorage.orgmode_filePath = newValue
 		},
-		/* SET_TASKS: (state, tasks) => {
-			state.tasks = tasks
-		}, */
+		SET_TODOFLAGS: (state, newValue) => {
+			state.settingsTodoFlags = newValue
+			localStorage.orgmode_todoflags = newValue
+		},
 	},
 	actions: {
 		setPath: ({ commit, state }, newValue) => {
 			commit('SET_PATH', newValue)
 			return state.settingsFilePath
 		},
+		setTodoFlags: ({ commit, state }, newValue) => {
+			commit('SET_TODOFLAGS', newValue)
+			return state.settingsTodoFlags
+		},
+		// >> Settings
+		async getSettings({ commit, state }) {
+			return new Promise(function(resolve, reject) {
+				resolve(require('./settings.json'))
+			})
+		},
+		async getSettingsTodoFlags({ commit, state, dispatch }) {
+			return new Promise(function(resolve, reject) {
+				dispatch('getSettings').then((settings) => {
+					resolve(settings.todo.flags)
+				})
+			})
+		},
 
+		async getTodoFlagIDs({ commit, state, dispatch }) {
+			return new Promise(function(resolve, reject) {
+				dispatch('getSettings').then((settings) => {
+					const flags = []
+					for (const prop in settings.todo.flags) {
+						flags.push(prop)
+					}
+					resolve(flags)
+				})
+			})
+		},
+		// << Settings
 		async getFileData({ commit, state }) {
 			return new Promise(function(resolve, reject) {
 				if (state.fileHash) {
@@ -47,6 +78,7 @@ const modOrgMode = {
 									.get('./om/details', {
 										params: {
 											file: state.settingsFilePath,
+											todoflags: state.settingsTodoFlags,
 										},
 									})
 									.then(response => {
@@ -66,6 +98,7 @@ const modOrgMode = {
 					.get('./om/details', {
 						params: {
 							file: state.settingsFilePath,
+							todoflags: state.settingsTodoFlags,
 						},
 					})
 					.then(response => {

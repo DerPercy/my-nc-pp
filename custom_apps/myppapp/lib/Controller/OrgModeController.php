@@ -42,7 +42,7 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getDetails($file) {
+	public function getDetails($file,$todoflags = "TODO,DONE") {
 		$response = [];
 		$response["nodes"] = [];
 		try {
@@ -50,7 +50,10 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 			$orgContent = $file->getContent();
 			$response["hash"] = $file->hash("MD5"); // To check if file changed
 
-			$parser = new \My\OrgMode\Parser();
+			$settings = [];
+			$settings["todoflags"] = explode(",", $todoflags);
+
+			$parser = new \My\OrgMode\Parser($settings);
 			$rootNode = $parser->parseString($orgContent);
 
 			$query = new \My\OrgMode\Query();
@@ -62,11 +65,14 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 				// Done
 				if($result->getTodoFlag() == null) {
 					$node["isTodo"] = false;
+					$node["todoFlag"] = "";
 				} else {
 					$node["isTodo"] = true;
+					$node["todoFlag"] = $result->getTodoFlag();
 				}
 				if($result->getTodoFlag() == 'DONE'){
 					$node["done"] = true;
+
 				}else{
 					$node["done"] = false;
 				}

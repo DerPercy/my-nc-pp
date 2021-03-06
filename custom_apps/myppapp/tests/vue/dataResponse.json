@@ -3,6 +3,7 @@
 	"nodes": [{
 		"isTodo": true,
 		"done": false,
+		"todoFlag": "TODO",
 		"prio": null,
 		"name": "Testtask1",
 		"customer": "Cust1",
@@ -10,13 +11,15 @@
 	},{
 		"isTodo": true,
 		"done": false,
+		"todoFlag": "INTEST",
 		"prio": null,
 		"name": "Testtask2",
 		"customer": "Cust1",
 		"project": "Project1"
 	},{
 		"isTodo": true,
-		"done": false,
+		"done": true,
+		"todoFlag": "DONE",
 		"prio": null,
 		"name": "Testtask3",
 		"customer": "Cust1",
@@ -24,6 +27,7 @@
 	},{
 		"isTodo": true,
 		"done": false,
+		"todoFlag": "CANCELED",
 		"prio": null,
 		"name": "Testtask4",
 		"customer": "Cust2",

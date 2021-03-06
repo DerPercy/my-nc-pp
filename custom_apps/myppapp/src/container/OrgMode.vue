@@ -20,7 +20,10 @@
 		<div>
 			Todoflags: <input v-model="todoflags" :style="{width: '270px'}">
 		</div>
-		<TaskList v-if="tasksLoaded" :tasks="tasks" :proj-tree="projectTree" />
+		<TaskList v-if="tasksLoaded"
+			:tasks="tasks"
+			:proj-tree="projectTree"
+			:todo-flag-settings="todoFlagSettings" />
 	</div>
 </template>
 
@@ -40,16 +43,17 @@ export default {
 			path: this.$store.state.om.settingsFilePath,
 			ort: '',
 			exportpfad: '/myppapp/TTexport.csv',
-			todoflags: 'TODO,DONE',
+			todoflags: this.$store.state.om.settingsTodoFlags,
 			jahr,
 			monat,
 			tasks: null,
 			projectTree: null,
+			todoFlagSettings: null,
 		}
 	},
 	computed: {
 		tasksLoaded() {
-			if (this.tasks && this.projectTree) {
+			if (this.tasks && this.projectTree && this.todoFlagSettings) {
 				return true
 			}
 			return false
@@ -63,13 +67,10 @@ export default {
 			this.$store.dispatch('om/setPath', value)
 		},
 		todoflags(value) {
-			localStorage.orgmode_todoflags = value
+			this.$store.dispatch('om/setTodoFlags', value)
 		},
 	},
 	mounted() {
-		if (localStorage.orgmode_todoflags) {
-			this.todoflags = localStorage.orgmode_todoflags
-		}
 		this.$store.dispatch('om/getTasks').then((tasks) => {
 			this.tasks = tasks
 			// console.log('Tasks', tasks)
@@ -77,6 +78,9 @@ export default {
 		this.$store.dispatch('om/getProjectTree').then((ptree) => {
 			this.projectTree = ptree
 			// console.log('PTree', ptree)
+		})
+		this.$store.dispatch('om/getSettingsTodoFlags').then((settings) => {
+			this.todoFlagSettings = settings
 		})
 	},
 	methods: {
