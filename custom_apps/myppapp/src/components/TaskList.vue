@@ -4,7 +4,7 @@
 		<ProjectSelector v-if="projectTree" :proj-tree="projectTree" @change="onSelectProject" />
 		<ul>
 			<li v-for="(task, index) in taskList" :key="index" :class="task.classNames">
-				<div>{{ task.name }} <span class="badge" :style="task.badgeStyle">{{ task.todoFlag }}</span></div>
+				<div>{{ task.name }} <span :class="task.badgeClass" :style="task.badgeStyle" :title="task.badgeComment">{{ task.todoFlag }}</span></div>
 				<div class="task-content-line-two">
 					{{ task.customer }}: {{ task.project }}
 				</div>
@@ -70,6 +70,17 @@ export default {
 			if (task.prio) {
 				task.classNames += ' task-prio-' + task.prio
 			}
+
+			// Badges
+			task.badgeClass = 'badge'
+
+			// TodoChangelog
+			task.badgeComment = ''
+			if (task.todoChangelog && task.todoChangelog[0] && task.todoChangelog[0].stateTo === task.todoFlag && task.todoChangelog[0].comments[0]) {
+				task.badgeComment = task.todoChangelog[0].comments[0]
+				task.badgeClass += ' badge-comment'
+			}
+
 			taskList.push(task)
 		}
 
@@ -140,6 +151,10 @@ export default {
 	border-radius: .25rem;
 	color:  var(--color-primary-text);
 	padding: 2px;
+}
+
+.badge-comment {
+	cursor: help;
 }
 
 .task-done {

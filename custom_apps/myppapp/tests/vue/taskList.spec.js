@@ -61,9 +61,16 @@ describe("TaskList", () => {
 		let pTaskList = wrapper.findAll('li.task')
 		expect(pTaskList.length).toBe(4)
 
-		// Corrent done-flags
+		// Comment from TodoChangelog
+		let badges = wrapper.findAll('li.task .badge')
+		expect(badges.at(0).attributes('title')).toBe('')
+		expect(badges.at(1).attributes('title')).toBe('Comment for intest')
+
+		// Correct done-flags
 		pTaskList = wrapper.findAll('li.task-done')
 		expect(pTaskList.length).toBe(2)
+
+
 
 		// Next: Filter by customer/project
 		const custList = wrapper.findAll('select.projectselector-custselect option')

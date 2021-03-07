@@ -83,7 +83,18 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 				$node["customer"] = mb_convert_encoding($result->getProperty("CUSTOMER",true), 'UTF-8', 'UTF-8');
 				$node["project"] = mb_convert_encoding($result->getProperty("PROJECT",true), 'UTF-8', 'UTF-8');
 
-
+				// TodoChangelog
+				$tdChangelog = $result->getTodoChangelog();
+				$node["todoChangelog"] = array();
+				foreach ($tdChangelog as $td) {
+					$tdcl = [];
+					$tdcl["stateTo"] = $td->stateTo;
+					$tdcl["comments"] = array();
+					foreach ($td->comments as $comment) {
+						array_push($tdcl["comments"],mb_convert_encoding($comment, 'UTF-8', 'UTF-8'));
+					}
+					array_push($node["todoChangelog"],$tdcl);
+				}
 				array_push($response["nodes"],$node);
 			}
 

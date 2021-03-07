@@ -7,7 +7,11 @@
 		"prio": null,
 		"name": "Testtask1",
 		"customer": "Cust1",
-		"project": "Project1"
+		"project": "Project1",
+		"todoChangelog": [{
+			"stateTo": "WAIT",
+			"comments": ["Comment for waiting"]
+		}]
 	},{
 		"isTodo": true,
 		"done": false,
@@ -15,7 +19,11 @@
 		"prio": null,
 		"name": "Testtask2",
 		"customer": "Cust1",
-		"project": "Project1"
+		"project": "Project1",
+		"todoChangelog": [{
+			"stateTo": "INTEST",
+			"comments": ["Comment for intest"]
+		}]
 	},{
 		"isTodo": true,
 		"done": true,
