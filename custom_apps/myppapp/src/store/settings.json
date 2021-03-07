@@ -18,7 +18,8 @@
 			},
 			"INTEST": {
 				"style": {
-					"background-color": "yellow"
+					"background-color": "yellow",
+					"color": "black"
 				}
 			},
 			"CANCELED": {

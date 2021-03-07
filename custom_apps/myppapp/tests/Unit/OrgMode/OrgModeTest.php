@@ -10,7 +10,7 @@ class OrgModeTest extends \PHPUnit\Framework\TestCase {
   public function setUp():void {
     $filecontent = $file = file_get_contents(__DIR__.'/test.org');
     //print($filecontent);
-    $parser = new \My\OrgMode\Parser([ "todoflags" => ["TODO","DONE","INTEST"] ]);
+    $parser = new \My\OrgMode\Parser([ "todoflags" => ["TODO","DONE","INTEST","WAIT"] ]);
     $this->rootNode = $parser->parseString($filecontent);
   }
   public function testSubNodes() {
@@ -50,7 +50,16 @@ class OrgModeTest extends \PHPUnit\Framework\TestCase {
 
 		$node = $this->rootNode->getSubNodes()[2]->getSubNodes()[0]->getSubNodes()[1];
 		$this->assertEquals("This is in test", $node->getTitle(), "Wrong title part 2");
-
-
   }
+
+	public function testTodoFlagChangelog(){
+		$node = $this->rootNode->getSubNodes()[2]->getSubNodes()[0]->getSubNodes()[2];
+		$this->assertEquals("Call 3rd parts API", $node->getTitle(), "Wrong title");
+		$this->assertEquals("WAIT", $node->getTodoFlag(), "Wrong todo flag");
+		$todoChangelog = $node->getTodoChangelog();
+		$this->assertEquals(3, count($todoChangelog), "Wrong todo changelog count");
+		$this->assertEquals("TODO", $todoChangelog[0]->stateFrom, "Wrong stateFrom");
+		$this->assertEquals("WAIT", $todoChangelog[0]->stateTo, "Wrong stateTo");
+		$this->assertEquals("Should be available next week", $todoChangelog[0]->comments[1], "Wrong comment");
+	}
 }

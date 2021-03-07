@@ -54,6 +54,9 @@ class Parser {
           $this->currentNode->getLogbook()->addEntry($logbookLine);
         }
         break;
+			case LexerToken::TYPE_TODOCHANGELOG:
+				$this->currentNode->addTodoChangelog($token->stateFrom, $token->stateTo, $token->date, $token->comment);
+				break;
     }
   }
 }

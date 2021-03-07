@@ -24,6 +24,12 @@ Header 3
 ** Todo and Tagging
 *** TODO [#A] A header with tags :tag1:tag2:anothertag:
 *** INTEST This is in test
+*** WAIT Call 3rd parts API
+   - State "WAIT"       from "TODO"       [2021-03-06 Sa 20:55] \\
+     Waiting for Login credentials
+       Should be available next week
+   - State "TODO"       from "WAIT"       [2021-03-06 Sa 20:54]
+	 - State "WAIT"       from "TODO"       [2021-03-06 Sa 20:53]
 
 * Robustness
 ** LOGBOOK

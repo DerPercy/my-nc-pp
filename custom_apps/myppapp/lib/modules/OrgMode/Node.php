@@ -8,6 +8,7 @@ class Node {
   private $properties = array(); //[["name","value"],...]
   private $logbook;
   private $data;
+	private $todoChangelog = array();
 
   function __construct(string $raw, string $title = "", array $data = []){
     $this->title = $title;
@@ -77,8 +78,30 @@ class Node {
 		}
     return $this->data["prio"];
   }
-}
 
+	// >> TodoChangelog
+	public function getTodoChangelog(){
+		return $this->todoChangelog;
+	}
+	public function addTodoChangelog(string $stateFrom, string $stateTo,  $date, array $comments){  // $date => DateTime
+		$nodecl = new NodeTodoChangelog($this, $stateFrom, $stateTo, $comments);
+		array_push($this->todoChangelog,$nodecl);
+	}
+	// << TodoChangelog
+
+}
+class NodeTodoChangelog {
+	private $node = null;
+	public $stateFrom;
+	public $stateTo;
+	public $comments;
+  function __construct(Node $node, string $stateFrom, string $stateTo, array $comments){
+    $this->node = $node;
+		$this->stateFrom = $stateFrom;
+		$this->stateTo = $stateTo;
+		$this->comments = $comments;
+  }
+}
 class NodeLogbook {
   private $entries = array();
   private $node = null;

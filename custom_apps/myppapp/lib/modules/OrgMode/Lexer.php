@@ -25,6 +25,24 @@ class Lexer {
     if($this->isHeaderToken($line)){
       return new LexerTokenHeader($line,$this->matches[2],strlen($this->matches[1]), $this->settings);
     }
+		// ========== TODOFLAG CHANGELOG ==========
+		if($this->isTodoChangeLog($line)){
+			$lexerTodoChangelogToken = new LexerTodoChangelogToken($line, $this->matches[3], $this->matches[2], $this->matches[4]);
+			if($this->matches[5] == "\\\\"){ // Changelog contains comment
+				$comment = $this->stream->getNextLine();
+				if(preg_match("/^(\s*)(.*)$/", $comment, $matches)){
+					$lexerTodoChangelogToken->addCommentLine($matches[2]);
+					$commentNext = $this->stream->peekNextLine();
+					while(preg_match("/^(".$matches[1].")(.*)$/", $commentNext, $matchesNext)){
+						$this->stream->getNextLine();
+						$commentNext = $this->stream->peekNextLine();
+						$lexerTodoChangelogToken->addCommentLine($matchesNext[2]);
+
+					}
+		    }
+			}
+			return $lexerTodoChangelogToken;
+		}
     // ========== PROPERTIES ==========
     if($this->isPropertyStartToken($line)){
       $lexerPropToken = new LexerPropertiesToken($line);
@@ -93,6 +111,10 @@ class Lexer {
   protected function isBlockEndToken($line){
     return $this->checkLine($line,"/^(\s*)(:END:)(\s*)$/"); // m[1] => level, m[2] => content
   }
+	protected function isTodoChangeLog($line){
+    return $this->checkLine($line,"/^(\s*)- State \"(.*)\"\s*from \"(.*)\"\s*\[(.*)\]\s*([\\\]{2})?\s*$/");
+		// m[1] => spaces, m[2] => State from, m[3] => State to, m[4] => date, m[5] => Separator (\\ => Comments in new Line)
+  }
 
   protected function checkLine($line,$regEx){
     if(!preg_match($regEx, $line, $this->matches)){
@@ -109,6 +131,7 @@ class LexerToken {
   const TYPE_HEADER = 1;
   const TYPE_PROPERTIES = 2;
   const TYPE_LOGBOOK = 3;
+	const TYPE_TODOCHANGELOG = 4;
 
   private $type;
   function __construct(string $raw, int $type){
@@ -116,6 +139,22 @@ class LexerToken {
   }
   public function getType():int {
     return $this->type;
+  }
+}
+
+class LexerTodoChangelogToken extends LexerToken {
+	public $stateFrom;
+	public $stateTo;
+	public $date;
+	public $comment = [];
+	function __construct(string $raw, string $stateFrom, string $stateTo, string $timestamp){
+		parent::__construct($raw,LexerToken::TYPE_TODOCHANGELOG);
+		$this->stateFrom = $stateFrom;
+		$this->stateTo = $stateTo;
+		$this->date = date_create_from_format("Y-m-d * H:i", $timestamp);
+	}
+	function addCommentLine(string $line) {
+		array_push($this->comment,trim($line));
   }
 }
 
