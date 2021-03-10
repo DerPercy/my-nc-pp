@@ -9,6 +9,8 @@ class Node {
   private $logbook;
   private $data;
 	private $todoChangelog = array();
+	private $content = array();
+
 
   function __construct(string $raw, string $title = "", array $data = []){
     $this->title = $title;
@@ -89,6 +91,13 @@ class Node {
 	}
 	// << TodoChangelog
 
+	// >> Content
+	public function addContent(string $contentLine){
+		array_push($this->content, $contentLine);
+	}
+	public function getContent():array {
+		return $this->content;
+	}
 }
 class NodeTodoChangelog {
 	private $node = null;

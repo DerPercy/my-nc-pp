@@ -134,12 +134,17 @@ class LexerToken {
 	const TYPE_TODOCHANGELOG = 4;
 
   private $type;
+	private $raw;
   function __construct(string $raw, int $type){
     $this->type = $type;
+		$this->raw = $raw;
   }
   public function getType():int {
     return $this->type;
   }
+	public function getRaw():string{
+		return $this->raw;
+	}
 }
 
 class LexerTodoChangelogToken extends LexerToken {

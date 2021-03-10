@@ -4,6 +4,61 @@ namespace OCA\MyPPApp\Service;
 class OrgModeService {
 	public function __construct(){
 	}
+
+	public function nodeToOutput($result, $recursive = false) { // OrgMode Node
+		$node = [];
+		// >> Parse todo.txt
+		// Done
+		if($result->getTodoFlag() == null) {
+			$node["isTodo"] = false;
+			$node["todoFlag"] = "";
+		} else {
+			$node["isTodo"] = true;
+			$node["todoFlag"] = $result->getTodoFlag();
+		}
+		if($result->getTodoFlag() == 'DONE'){
+			$node["done"] = true;
+
+		}else{
+			$node["done"] = false;
+		}
+		// Priority
+		$node["prio"] = $result->getPriority();
+
+		$node["name"] = mb_convert_encoding($result->getTitle(), 'UTF-8', 'UTF-8');
+		$node["customer"] = mb_convert_encoding($result->getProperty("CUSTOMER",true), 'UTF-8', 'UTF-8');
+		$node["project"] = mb_convert_encoding($result->getProperty("PROJECT",true), 'UTF-8', 'UTF-8');
+
+		// TodoChangelog
+		$tdChangelog = $result->getTodoChangelog();
+		$node["todoChangelog"] = array();
+		foreach ($tdChangelog as $td) {
+			$tdcl = [];
+			$tdcl["stateTo"] = $td->stateTo;
+			$tdcl["comments"] = array();
+			foreach ($td->comments as $comment) {
+				array_push($tdcl["comments"],mb_convert_encoding($comment, 'UTF-8', 'UTF-8'));
+			}
+			array_push($node["todoChangelog"],$tdcl);
+		}
+
+		// Content
+		$node["content"] = [];
+		foreach ($result->getContent() as &$contentLine) {
+			array_push($node["content"],mb_convert_encoding($contentLine, 'UTF-8', 'UTF-8'));
+		}
+
+		// Recursive
+		if($recursive == true){
+			$node["children"] = [];
+			foreach ($result->getSubNodes() as &$resSubnode) {
+				$subResult = $this->nodeToOutput($resSubnode,$recursive);
+				array_push($node["children"],$subResult);
+			}
+		}
+		return $node;
+	}
+
 	public static function mergeTimesheet(array $timesheet) { // Merge entries with the same date, project and customer
 		for ($i = 0; $i < count($timesheet); $i++) {
 			for ($k = $i+1; $k < count($timesheet); $k++) {

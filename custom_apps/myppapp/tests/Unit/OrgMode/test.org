@@ -1,3 +1,5 @@
+Some content before
+
 * Header 1
  :PROPERTIES:
  :PROP1: Value 1

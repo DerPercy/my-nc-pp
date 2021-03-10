@@ -18,11 +18,13 @@ use My\OrgMode\Query;
 class OrgModeController extends \OCP\AppFramework\ApiController {
 	private $userId;
 	private $rootFolder;
+	private $service;
 
-	public function __construct($AppName, IRequest $request, IRootFolder $rootFolder,$UserId){
+	public function __construct($AppName, IRequest $request, OrgModeService $service, IRootFolder $rootFolder,$UserId){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 		$this->rootFolder = $rootFolder;
+		$this->service = $service;
 	}
 
 	/**
@@ -45,6 +47,7 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 	public function getDetails($file,$todoflags = "TODO,DONE") {
 		$response = [];
 		$response["nodes"] = [];
+		$response["nodeTree"] = [];
 		try {
 			$file = $this->rootFolder->get($this->userId.'/files/'.$file);
 			$orgContent = $file->getContent();
@@ -59,42 +62,14 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 			$query = new \My\OrgMode\Query();
 			$results = $query->query($rootNode)->getResult();
 
+			// Treeview
+			foreach ($rootNode->getSubNodes() as &$result) {
+				$node = $this->service->nodeToOutput($result,true);
+				array_push($response["nodeTree"],$node);
+			}
+			// Listview
 			foreach ($results as &$result) {
-				$node = [];
-				// >> Parse todo.txt
-				// Done
-				if($result->getTodoFlag() == null) {
-					$node["isTodo"] = false;
-					$node["todoFlag"] = "";
-				} else {
-					$node["isTodo"] = true;
-					$node["todoFlag"] = $result->getTodoFlag();
-				}
-				if($result->getTodoFlag() == 'DONE'){
-					$node["done"] = true;
-
-				}else{
-					$node["done"] = false;
-				}
-				// Priority
-				$node["prio"] = $result->getPriority();
-
-				$node["name"] = mb_convert_encoding($result->getTitle(), 'UTF-8', 'UTF-8');
-				$node["customer"] = mb_convert_encoding($result->getProperty("CUSTOMER",true), 'UTF-8', 'UTF-8');
-				$node["project"] = mb_convert_encoding($result->getProperty("PROJECT",true), 'UTF-8', 'UTF-8');
-
-				// TodoChangelog
-				$tdChangelog = $result->getTodoChangelog();
-				$node["todoChangelog"] = array();
-				foreach ($tdChangelog as $td) {
-					$tdcl = [];
-					$tdcl["stateTo"] = $td->stateTo;
-					$tdcl["comments"] = array();
-					foreach ($td->comments as $comment) {
-						array_push($tdcl["comments"],mb_convert_encoding($comment, 'UTF-8', 'UTF-8'));
-					}
-					array_push($node["todoChangelog"],$tdcl);
-				}
+				$node = $this->service->nodeToOutput($result);
 				array_push($response["nodes"],$node);
 			}
 
@@ -143,95 +118,6 @@ class OrgModeController extends \OCP\AppFramework\ApiController {
 		return $response;
 	}
 
-	/* *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * /
-	public function getTasks($file) {
-		$tasks = [];
-
-		$tasks["path"] = $file;
-		$taskdata = [];
-		try {
-			$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
-			$parser = new \My\OrgMode\Parser();
-			$rootNode = $parser->parseString($orgContent);
-
-			$query = new \My\OrgMode\Query();
-			$results = $query->query($rootNode)->getResult();
-
-			foreach ($results as &$result) {
-				$task = [];
-				// >> Parse todo.txt
-				// Done
-				if($result->getTodoFlag() == null) {
-					continue;
-				}
-				if($result->getTodoFlag() == 'DONE'){
-					$task["done"] = true;
-				}else{
-					$task["done"] = false;
-				}
-				// Priority
-				$task["prio"] = $result->getPriority();
-
-				// << Parse todo.txt
-				$task["name"] = mb_convert_encoding($result->getTitle(), 'UTF-8', 'UTF-8');
-				$task["customer"] = mb_convert_encoding($result->getProperty("CUSTOMER",true), 'UTF-8', 'UTF-8');
-				$task["project"] = mb_convert_encoding($result->getProperty("PROJECT",true), 'UTF-8', 'UTF-8');
-
-
-				array_push($taskdata,$task);
-			}
-		} catch (\OCP\Files\NotFoundException $e) {
-		}
-		$tasks["tasks"] = $taskdata;
-		return $tasks;
-	} */
-
-	/* *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * /
-	public function getLogbook($file) {
-		$orgContent = $this->rootFolder->get($this->userId.'/files/'.$file)->getContent();
-		$parser = new \My\OrgMode\Parser();
-		$rootNode = $parser->parseString($orgContent);
-
-		$query = new \My\OrgMode\Query();
-		$results = $query->logbookQuery($rootNode,[])->getResult();
-		$returnData = [];
-		$dayEvents = [];
-		foreach ($results as &$result) {
-			$resultSerialized = [
-				"title" => mb_convert_encoding($result->getNode()->getTitle(), 'UTF-8', 'UTF-8'),
-				"start" => ( $result->getStartDateObject()->getTimestamp() * 1000 ),
-				"end" => ( $result->getEndDateObject()->getTimestamp() * 1000 )
-			];
-			$dayEventKey = $result->getStartDate("Ymd");
-			$durationInMin = $result->getDuration();
-			if(array_key_exists($dayEventKey, $dayEvents)){
-				$dayEvents[$dayEventKey]["duration"] += $durationInMin;
-			}else {
-				$dayEvents[$dayEventKey] = [
-					"duration" => $durationInMin,
-					"start" => ( $result->getStartDateObject()->getTimestamp() * 1000 ),
-					"end" => ( $result->getEndDateObject()->getTimestamp() * 1000 )
-				];
-			}
-			array_push($returnData,$resultSerialized);
-		}
-		foreach ($dayEvents as $key => $dayEvent){
-			$dayEventSerialized = [
-				"title" => OrgModeService::minutesToUI($dayEvent["duration"]),
-				"start" => $dayEvent["start"],
-				"end" => $dayEvent["end"],
-				"allDay" => True
-			];
-			array_push($returnData,$dayEventSerialized);
-		}
-		return new DataResponse($returnData);
-	}*/
 
   /**
 	 * @NoAdminRequired

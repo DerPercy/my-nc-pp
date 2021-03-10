@@ -1,6 +1,6 @@
 <template>
 	<div class="myppapp-tasklist">
-		<h2>Meine Aufgaben {{ taskListOpen.length }}/{{ taskList.length }}</h2>
+		<h3>Meine Aufgaben {{ taskListOpen.length }}/{{ taskList.length }}</h3>
 		<ProjectSelector v-if="projectTree" :proj-tree="projectTree" @change="onSelectProject" />
 		<ul>
 			<li v-for="(task, index) in taskList" :key="index" :class="task.classNames">

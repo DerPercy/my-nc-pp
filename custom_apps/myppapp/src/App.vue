@@ -6,44 +6,20 @@
 					key="toOrgMode"
 					title="Org Mode"
 					icon="icon-external"
-					@click="showOrgMode()">
-					<AppNavigationItem
-						key="toOrgModeCalendar"
-						title="Org Mode Calendar"
-						icon="icon-calendar-dark"
-						@click="setContentType('orgmode-calendar')" />
-				</AppNavigationItem>
+					@click="showOrgMode()" />
 				<AppNavigationItem
-					key="tasks"
-					title="Aufgaben"
-					icon="icon-checkmark"
-					@click="showTasks()" />
-				<AppNavigationItem v-for="(customer, index) in customerList"
-					:key="index"
-					:title="customer.name"
-					:allow-collapse="true"
-					icon="icon-folder"
-					@click="showCustomer(customer)">
-					<AppNavigationCounter slot="counter" :highlighted="false">
-						{{ daysSinceLastChange(customer) }}
-					</AppNavigationCounter>
-					<AppNavigationItem v-for="(project, pIndex) in customer.projects"
-						:key="pIndex"
-						:title="project.name"
-						@click="showProject(project)" />
-				</AppNavigationItem>
+					key="toOrgModeCalendar"
+					title="Org Mode Calendar"
+					icon="icon-calendar-dark"
+					@click="setContentType('orgmode-calendar')" />
 			</template>
 		</AppNavigation>
 		<AppContent>
 			<div id="app-content-wrapper">
-				<TaskOverview v-if="contentType == 'tasks'" />
-				<ProjectDashboard v-if="contentType == 'project'" :project-path="projectPath" />
-				<CustomerDashboard v-if="contentType == 'customer'" />
 				<OrgMode v-if="contentType == 'orgmode'" />
 				<OrgModeCalendar v-if="contentType == 'orgmode-calendar'" />
 			</div>
 		</AppContent>
-		<AsideTimeRecording v-show="asideType == 'tr'" />
 		<AppSidebar v-show="show"
 			title="eberhard-grossgasteiger-VDw-nsi5TpE-unsplash.jpg"
 			subtitle="4,3 MB, last edited 41 days ago"
@@ -91,17 +67,12 @@
 import Content from '@nextcloud/vue/dist/Components/Content'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import AsideTimeRecording from './components/AsideTimeRecording.vue'
 
-import ProjectDashboard from './container/ProjectDashboard.vue'
-import CustomerDashboard from './container/CustomerDashboard.vue'
-import TaskOverview from './container/TaskOverview.vue'
 import OrgMode from './container/OrgMode.vue'
 import OrgModeCalendar from './container/OrgModeCalendar.vue'
 
@@ -114,16 +85,11 @@ export default {
 		Content,
 		AppContent,
 		AppNavigation,
-		AppNavigationCounter,
 		AppNavigationItem,
 		AppSidebar,
 		AppSidebarTab,
 		ActionButton,
 		ActionLink,
-		AsideTimeRecording,
-		ProjectDashboard,
-		CustomerDashboard,
-		TaskOverview,
 		OrgMode,
 		OrgModeCalendar,
 	},
@@ -206,8 +172,11 @@ export default {
 }
 </script>
 <style>
-
 main.app-content {
 	padding: 14px;
+}
+
+.my-header {
+	padding-left: 30px;
 }
 </style>

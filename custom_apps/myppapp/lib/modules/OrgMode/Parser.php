@@ -37,6 +37,7 @@ class Parser {
     $token = $lexer->getNext();
     switch($token->getType()){
       case LexerToken::TYPE_UNKNOWN:
+				$this->currentNode->addContent($token->getRaw());
         break;
       case LexerToken::TYPE_HEADER:
         while($this->currentNode->getLevel() >= $token->getLevel()){

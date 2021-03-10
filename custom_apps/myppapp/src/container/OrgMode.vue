@@ -1,6 +1,12 @@
 <template>
 	<div>
-		<div>Hello OrgMode</div>
+		<h2 class="my-header">
+			OrgMode
+		</h2>
+		<TaskList v-if="tasksLoaded"
+			:tasks="tasks"
+			:proj-tree="projectTree"
+			:todo-flag-settings="todoFlagSettings" />
 		<span>Pfad: </span><input v-model="path" :style="{width: '270px'}">
 		<div>
 			Ort: <input v-model="ort">
@@ -20,10 +26,6 @@
 		<div>
 			Todoflags: <input v-model="todoflags" :style="{width: '270px'}">
 		</div>
-		<TaskList v-if="tasksLoaded"
-			:tasks="tasks"
-			:proj-tree="projectTree"
-			:todo-flag-settings="todoFlagSettings" />
 	</div>
 </template>
 
