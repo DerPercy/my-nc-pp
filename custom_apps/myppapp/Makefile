@@ -10,7 +10,7 @@ npm-init:
 	npm ci
 
 build-js:
-	npm run test:jest
+#	npm run test:jest
 	npm run build
 
 build-dev-js:
@@ -26,6 +26,8 @@ test-php:
 test-js:
 	npm run test:jest
 
+db-show:
+	sudo sqlitebrowser ../../nextcloud/data/owncloud.db
 # This file is licensed under the Affero General Public License version 3 or
 # later. See the COPYING file.
 # @author Bernhard Posselt <dev@bernhard-posselt.com>

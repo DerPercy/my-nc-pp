@@ -1,0 +1,24 @@
+{
+  "customer": {
+    "properties": {
+      "name": []
+    },
+    "relations": {
+      "projectcustomerFrom": {
+        "destination": "project",
+        "multiValue": true
+      }
+    }
+  },
+  "project": {
+    "properties": {
+      "name": []
+    },
+    "relations": {
+      "projectcustomerTo": {
+        "destination": "customer",
+        "multiValue": false
+      }
+    }
+  }
+}

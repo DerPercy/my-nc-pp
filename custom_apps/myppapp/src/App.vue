@@ -12,12 +12,18 @@
 					title="Org Mode Calendar"
 					icon="icon-calendar-dark"
 					@click="setContentType('orgmode-calendar')" />
+				<AppNavigationItem
+					key="toDomainBrowser"
+					title="DomainBrowser"
+					icon="icon-calendar-dark"
+					@click="setContentType('domain-browser')" />
 			</template>
 		</AppNavigation>
 		<AppContent>
 			<div id="app-content-wrapper">
 				<OrgMode v-if="contentType == 'orgmode'" />
 				<OrgModeCalendar v-if="contentType == 'orgmode-calendar'" />
+				<DomainBrowser v-if="contentType == 'domain-browser'" />
 			</div>
 		</AppContent>
 		<AppSidebar v-show="show"
@@ -76,6 +82,8 @@ import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import OrgMode from './container/OrgMode.vue'
 import OrgModeCalendar from './container/OrgModeCalendar.vue'
 
+import DomainBrowser from './container/DomainBrowser.vue'
+
 import { store } from './store.js'
 import Moment from 'moment'
 
@@ -92,6 +100,7 @@ export default {
 		ActionLink,
 		OrgMode,
 		OrgModeCalendar,
+		DomainBrowser,
 	},
 	data() {
 		return {

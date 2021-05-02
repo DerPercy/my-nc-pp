@@ -4,12 +4,14 @@ import Vuex from 'vuex'
 // import axios from './axios'
 
 import modOM from './OrgModeStore'
+import modDomain from './DomainStore'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	modules: {
 		om: modOM,
+		ddd: modDomain,
 	},
 	state: {
 		asideType: '', // Currently open aside ('tr')

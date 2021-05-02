@@ -29,6 +29,18 @@ sudo docker-compose run phpunit ./phpunit /app/custom_apps/myppapp/tests --color
 sudo docker stop my_nextcloud
 ```
 
+## Database Migrations
+```
+make nc-bash
+
+php ./occ migrations:generate myppapp 1000
+php ./occ migrations:status myppapp
+```
+See:
+Migrations: https://docs.nextcloud.com/server/13.0.0/developer_manual/app/migrations.html
+Schema: https://docs.nextcloud.com/server/latest/developer_manual/app_development/tutorial.html
+
+
 # Attic
 ## Testing
 ### Install PHPunit

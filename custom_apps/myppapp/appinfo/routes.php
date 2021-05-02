@@ -32,5 +32,10 @@ return [
 		['name' => 'orgMode#getNodes', 'url' => '/om/nodes', 'verb' => 'GET'],
 		// ['name' => 'orgMode#getLogbook', 'url' => '/om/logbook', 'verb' => 'GET'],
 
+		['name' => 'domain#getEntityDefinitions', 'url' => '/ddd/entitydefinitions', 'verb' => 'GET'],
+		['name' => 'domain#getEntities', 'url' => '/ddd/entities/{entitytype}', 'verb' => 'GET'],
+		['name' => 'domain#createEntity', 'url' => '/ddd/createentity', 'verb' => 'POST'],
+		['name' => 'domain#updateEntity', 'url' => '/ddd/updateentity', 'verb' => 'POST']
+
   ]
 ];

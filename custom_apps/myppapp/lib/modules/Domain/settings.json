@@ -1,0 +1,102 @@
+{
+	"entities": {
+		"customer": {
+			"name": "Kunde",
+			"properties": {
+				"name": {}
+			}
+		},
+		"project": {
+			"name": "Projekt",
+			"properties": {
+				"name": {}
+			}
+		},
+		"task": {
+			"name": "Aufgabe",
+			"properties": {
+				"name": {}
+			}
+		},
+		"worklog": {
+			"properties": {
+				"start": {
+					"type": "DATETIME"
+				},
+				"end": {
+					"type": "DATETIME"
+				},
+				"duration": {
+					"type": "I"
+				}
+			},
+			"computed": {
+				"taskname": { "method": "getTaskNameOfWorkLog" },
+				"customer": { "method": "getCustomerOfWorkLog" },
+				"project": { "method": "getProjectOfWorkLog" },
+				"pause": { "method": "getPauseOfWorkLog" }
+			}
+		}
+	},
+	"relations": {
+		"projectcustomer": {
+			"type": "1-n",
+			"from": "customer",
+			"to": "project"
+		},
+		"subtask": {
+			"type": "1-n",
+			"from": "task",
+			"to": "task"
+		},
+		"taskproject": {
+			"type": "1-n",
+			"from": "project",
+			"to": "task"
+		},
+		"worklogtask": {
+			"type": "1-n",
+			"from": "task",
+			"to": "worklog"
+		}
+	},
+	"reports": {
+		"tn": {
+			"entity": "worklog",
+			"props": {
+				"month": {},
+				"year": {},
+				"location": {}
+			},
+			"fields": {
+				"datum": {
+					"property": "start"
+				},
+				"ort": {
+					"props": "location"
+				},
+				"task": {
+					"computed": "taskname"
+				},
+				"von": {
+					"property": "start"
+				},
+				"bis": {
+					"property": "end"
+				},
+				"pause": {
+					"computed": "pause"
+				},
+				"dauer": {
+					"property": "duration"
+				},
+				"kunde": {
+					"computed": "customer"
+				},
+				"project": {
+					"computed": "project"
+				}
+			}
+		}
+	}
+}
