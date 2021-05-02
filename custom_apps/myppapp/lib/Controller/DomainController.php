@@ -70,6 +70,16 @@ class DomainController extends \OCP\AppFramework\ApiController {
 		$retData["entitydata"] = $entitydata;
 		$retData["relations"] = $relations;
 
+		$entity = $this->mapper->getEntityByID($entityid);
+
+		foreach ($entitydata as $key => $value) {
+			$entity->setData($key,$value);
+		}
+
+		$this->service->handleRelations($entityid,$entity->getEntityType(),$relations);
+
+		
+
 		//$retData["sName"] = $entityname;
 		//$retData["sData"] = $entitydata;
 
@@ -79,8 +89,8 @@ class DomainController extends \OCP\AppFramework\ApiController {
 		//$dbEntity->setJsonData($jsonString);
 		//$dbEntity->setUserId($this->userId);
 
-		//return new DataResponse($this->mapper->insert($dbEntity));
-		return $retData;
+		return new DataResponse($this->mapper->update($entity));
+		//return $retData;
 	}
 
 

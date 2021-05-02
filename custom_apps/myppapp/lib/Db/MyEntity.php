@@ -23,6 +23,12 @@ class MyEntity extends Entity implements JsonSerializable {
 		public function getEntityType() {
 			return $this->entitytype;
 		}
+
+		public function setData($name,$value) {
+			$data = json_decode($this->jsonData,true);
+			$data[$name] = $value;
+			$this->setJsonData(json_encode($data));
+		}
 		public function addComputedValue($name,$value){
 			$this->computed[$name] = $value;
 		}

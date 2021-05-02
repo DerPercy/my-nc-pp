@@ -35,4 +35,24 @@ class DomainService {
 		$entity->addComputedValue("test","value");
 	}
 
+	// ========== Relations ==========
+	public function handleRelations($entityID, $entityType, $relations){
+		// Relations
+		// "relations":{"projectcustomerTo":7}}
+
+		$entityDef = $this->domain->getEntity($entityType);
+		foreach ($relations as $relationKey => $relationValue) {
+			foreach ($entityDef["relations"] as $relName => $relDef) {
+				if($relationKey == $relName){
+					if($relDef["multiValue"] == false){
+						// Delete old relation // TODO: Implement
+						$this->relationMapper->deleteRelation($entityID, $relName);
+					}
+					$this->relationMapper->setRelation($entityID, $relName, $relationValue);
+				}
+			}
+		}
+
+	}
+
 }
