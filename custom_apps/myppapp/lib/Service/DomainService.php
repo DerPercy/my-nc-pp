@@ -33,6 +33,7 @@ class DomainService {
 			$entity->addRelation($Key, $this->relationMapper->findRelationIDs($Key,$entity->getEntityID()));
 		}
 		$entity->addComputedValue("test","value");
+		return $entity;
 	}
 
 	// ========== Relations ==========

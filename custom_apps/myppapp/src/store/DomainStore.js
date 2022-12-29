@@ -47,11 +47,23 @@ const modDomain = {
 			})
 		},
 
-		// Gett all entities of type
+		// Get all entities of type
 		async getEntitiesOfType({ commit, state }, type) {
 			return new Promise(function(resolve, reject) {
 				axios
 					.get('./ddd/entities/' + type, {
+					})
+					.then(response => {
+						resolve(response.data)
+					})
+			})
+		},
+
+		// Get entityByID
+		async getEntityByID({ commit, state }, entityID) {
+			return new Promise(function(resolve, reject) {
+				axios
+					.get('./ddd/entity/' + entityID, {
 					})
 					.then(response => {
 						resolve(response.data)

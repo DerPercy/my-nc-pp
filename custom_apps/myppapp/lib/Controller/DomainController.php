@@ -45,6 +45,15 @@ class DomainController extends \OCP\AppFramework\ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
+	public function getEntityByID($entityid) {
+		//return new DataResponse($entityid);
+		return new DataResponse($this->service->convEntityToOutput($this->mapper->getEntityByID((int)$entityid)));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
 	public function createEntity($entityname, $entitydata, $relations) {
 		//$retData = [];
 		//$retData["sName"] = $entityname;
@@ -78,7 +87,7 @@ class DomainController extends \OCP\AppFramework\ApiController {
 
 		$this->service->handleRelations($entityid,$entity->getEntityType(),$relations);
 
-		
+
 
 		//$retData["sName"] = $entityname;
 		//$retData["sData"] = $entitydata;
